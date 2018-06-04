@@ -37,8 +37,8 @@ jobs:
       - run: yarn test
 
       - run:
-        name: Generate Build
-        command: ng build --prod --base-href "https://your-name.github.io/coffee-time-ui/"
+          name: Generate Build
+          command: ng build --prod --base-href "https://your-name.github.io/coffee-time-ui/"
 
       - run:
             command: |
