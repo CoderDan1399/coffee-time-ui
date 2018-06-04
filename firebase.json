@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": "dist/coffee-time-ui",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
