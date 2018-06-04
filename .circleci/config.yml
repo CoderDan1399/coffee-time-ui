@@ -25,7 +25,7 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-      - run: npm install -g openode
+      - run: npm install -g firebase-tools
       - run: npm install
 
       - save_cache:
@@ -39,5 +39,5 @@ jobs:
       - run:
           name: Generate Build
           command: ng build --prod"
-      - run: openode deploy -t $OPENODE_TOKEN -s coffee-time-ui
+      - run: firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
   
