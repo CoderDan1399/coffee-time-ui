@@ -12,19 +12,18 @@ import {
   StoreRouterConnectingModule,
   RouterStateSerializer,
 } from '@ngrx/router-store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent
-  ],
+  declarations: [AppComponent, HomePageComponent],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     /**
- * @ngrx/router-store keeps router state up-to-date in the store.
- */
+     * @ngrx/router-store keeps router state up-to-date in the store.
+     */
     StoreRouterConnectingModule.forRoot({
       /*
         They stateKey defines the name of the state used by the router-store reducer.
@@ -32,9 +31,9 @@ import {
       */
       stateKey: 'router',
     }),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
