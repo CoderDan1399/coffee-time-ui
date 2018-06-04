@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [OutletMockComponent, AppComponent],
+      imports: [RouterModule.forRoot([], { useHash: true })],
+      declarations: [AppComponent],
     }).compileComponents();
   }));
   it('should create the app', async(() => {
@@ -21,18 +21,11 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app');
   }));
-  it('should render title in a h1 tag', async(() => {
+
+  it('should have a header', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1.heading').textContent).toContain(
-      'Welcome to coffee-time-ui!'
-    );
+    expect(compiled.querySelector('header.masthead')).not.toBeNull();
   }));
 });
-
-@Component({
-  selector: 'router-outlet',
-  template: `<h1 class="heading">Welcome to coffee-time-ui!</h1>`,
-})
-export class OutletMockComponent {}
