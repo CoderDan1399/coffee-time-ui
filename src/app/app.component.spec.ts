@@ -1,13 +1,16 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomePageComponent } from './home-page/home-page.component';
 import { RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([], { useHash: true })],
+      imports: [
+        RouterModule.forRoot([], { useHash: true }),
+        StoreModule.forRoot({}),
+      ],
       declarations: [AppComponent],
     }).compileComponents();
   }));

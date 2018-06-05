@@ -2,16 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomePageComponent } from './home-page.component';
 import { Store, StoreModule } from '@ngrx/store';
+import { RouterModule } from '@angular/router';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
   let store: Store<any>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ StoreModule.forRoot({}) ],
-      declarations: [ HomePageComponent ]
+      imports: [
+        StoreModule.forRoot({}),
+        RouterModule.forRoot([], { useHash: true }),
+      ],
+      declarations: [HomePageComponent],
     });
 
     await TestBed.compileComponents();

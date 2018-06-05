@@ -38,6 +38,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "ngrx-store-freeze": "^0.2.3",
+    "ramda": "^0.25.0",
     "rxjs": "^6.0.0",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.26"
@@ -51,6 +52,7 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "@types/ramda": "^0.25.24",
     "codelyzer": "~4.2.1",
     "husky": "^0.14.3",
     "jasmine-core": "~2.99.1",
