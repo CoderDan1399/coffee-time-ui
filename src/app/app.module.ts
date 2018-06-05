@@ -7,15 +7,19 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './/app-routing.module';
-import { HomePageComponent } from './home-page/home-page.component';
+
 import {
   StoreRouterConnectingModule,
   RouterStateSerializer,
 } from '@ngrx/router-store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomePageComponent } from './containers/home-page/home-page.component';
+import { CreateTeamComponent } from './containers/create-team/create-team.component';
+
+const DECLARATIONS = [AppComponent, HomePageComponent, CreateTeamComponent];
 
 @NgModule({
-  declarations: [AppComponent, HomePageComponent],
+  declarations: [...DECLARATIONS],
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
