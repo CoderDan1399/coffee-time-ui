@@ -16,7 +16,7 @@ export const reducers: ActionReducerMap<State> = {
   teams: fromTeams.reducer,
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production
+export const metaReducers: MetaReducer<State>[] = environment.production
   ? []
   : [logger, storeFreeze];
 
