@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './/app-routing.module';
@@ -15,13 +14,16 @@ import {
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomePageComponent } from './containers/home-page/home-page.component';
 import { CreateTeamComponent } from './containers/create-team/create-team.component';
+import { reducers, metaReducers } from './redux/reducers';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 const DECLARATIONS = [AppComponent, HomePageComponent, CreateTeamComponent];
-
+const IMPORTS = [BrowserModule, CommonModule, FormsModule, ReactiveFormsModule];
 @NgModule({
   declarations: [...DECLARATIONS],
   imports: [
-    BrowserModule,
+    ...IMPORTS,
     NgbModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

@@ -2,4 +2,18 @@
     <div class="py-5">
         <h2>Create Team</h2>
     </div>
+    <form #heroForm="ngForm"
+          class="needs-validation"
+          novalidate
+          (ngSubmit)="onSubmit(heroForm)">
+        <label for="team-name"> Team Name</label>
+        <input autocomplete="off"
+               class="form-control"
+               id="team-name"
+               name="team-name"
+               required
+               [(ngModel)]="teamName">
+        <button type="submit"
+                class="btn btn-secondary">Create</button>
+    </form>
 </div>

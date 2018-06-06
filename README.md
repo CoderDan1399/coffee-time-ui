@@ -7,6 +7,7 @@ https://coffee-time-ui.firebaseapp.com/#
 - Add capcha when creating teams
 - add create team page
 - add about page
+- get e2e tests running on build server.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
