@@ -17,9 +17,40 @@ import { CreateTeamComponent } from './containers/create-team/create-team.compon
 import { reducers, metaReducers } from './redux/reducers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ManageTeamComponent } from './containers/manage-team/manage-team.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { FakeDataService } from './fakes/fake-data.service';
+import { FakeTeamService } from './fakes/fake-team.service';
+import { TeamService } from './services/team.service';
+import { UserService } from './services/user.service';
+import { FakeUserService } from './fakes/fake-user.service';
+import { TeamEffects } from './redux/effects/team.effects';
+import { EffectsModule } from '@ngrx/effects';
 
-const DECLARATIONS = [AppComponent, HomePageComponent, CreateTeamComponent];
-const IMPORTS = [BrowserModule, CommonModule, FormsModule, ReactiveFormsModule];
+const DECLARATIONS = [
+  AppComponent,
+  HomePageComponent,
+  CreateTeamComponent,
+  ManageTeamComponent,
+  UserListComponent,
+];
+
+const IMPORTS = [
+  BrowserModule,
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  EffectsModule.forRoot([TeamEffects]),
+];
+
+const FAKE_SERVICES = [
+  { provide: TeamService, useClass: FakeTeamService },
+  { provide: UserService, useClass: FakeUserService },
+];
+const SERVICES = [TeamService, UserService];
+
+const PROVIDERS = [FakeDataService, ...FAKE_SERVICES];
+
 @NgModule({
   declarations: [...DECLARATIONS],
   imports: [
@@ -39,7 +70,7 @@ const IMPORTS = [BrowserModule, CommonModule, FormsModule, ReactiveFormsModule];
     }),
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [...PROVIDERS],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
