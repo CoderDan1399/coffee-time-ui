@@ -4,6 +4,9 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class TeamService implements ITeamService {
+  verifySecret(teamId: string, secret: string): Observable<boolean> {
+    throw new Error('Method not implemented.');
+  }
   addTeam(team: Team): Observable<any> {
     return of(null);
   }
@@ -22,4 +25,6 @@ export interface ITeamService {
   updateTeam(team: Team): Observable<any>;
 
   getTeam(id: string): Observable<Team>;
+
+  verifySecret(teamId: string, secret: string): Observable<boolean>;
 }

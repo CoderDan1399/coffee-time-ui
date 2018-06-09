@@ -2,5 +2,13 @@
     <div class="py-5">
         <h2>Manage Team</h2>
     </div>
+    <div class="form-group">
+        <label for="currentUrl">Mange Team URL(Private)</label>
+        <input id="currentUrl"
+               type="text"
+               width="50em"
+               [disabled]=true
+               value="{{currentUrl}}">
+    </div>
     <user-list></user-list>
 </div>

@@ -26,6 +26,10 @@ import { UserService } from './services/user.service';
 import { FakeUserService } from './fakes/fake-user.service';
 import { TeamEffects } from './redux/effects/team.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
+import { NotFoundComponent } from './containers/not-found/not-found.component';
+import { CanActivateMangeTeam } from './guards/can-manage-team';
+import { TeamResolver } from './guards/team-resolver';
 
 const DECLARATIONS = [
   AppComponent,
@@ -33,6 +37,8 @@ const DECLARATIONS = [
   CreateTeamComponent,
   ManageTeamComponent,
   UserListComponent,
+  NotAuthorizedComponent,
+  NotFoundComponent,
 ];
 
 const IMPORTS = [
@@ -49,7 +55,12 @@ const FAKE_SERVICES = [
 ];
 const SERVICES = [TeamService, UserService];
 
-const PROVIDERS = [FakeDataService, ...FAKE_SERVICES];
+const PROVIDERS = [
+  FakeDataService,
+  CanActivateMangeTeam,
+  TeamResolver,
+  ...FAKE_SERVICES,
+];
 
 @NgModule({
   declarations: [...DECLARATIONS],

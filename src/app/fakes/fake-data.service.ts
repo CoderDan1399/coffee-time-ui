@@ -6,12 +6,17 @@ import { pipe, not } from 'ramda';
 export class FakeDataService {
   private data: any = {};
 
+  constructor() {
+    this.load();
+  }
+
   get(key) {
     return this.data[key];
   }
   addToArray(key, value) {
     this.createArrayIfRequired(key);
     this.data[key].push(value);
+    this.save();
   }
 
   removeFromArray(key, selector: (item) => boolean) {
@@ -22,6 +27,7 @@ export class FakeDataService {
         not
       )
     );
+    this.save();
   }
 
   getFromArray(key, selector: (item) => boolean): any[] {
@@ -32,11 +38,27 @@ export class FakeDataService {
 
   set(key, value) {
     this.data[key] = value;
+    this.save();
+  }
+
+  clearPersistentStorage() {
+    window.localStorage.setItem('DATA', null);
   }
 
   private createArrayIfRequired(key) {
     if (!this.data[key] || Array.isArray(this.data[key]) == false) {
       this.data[key] = [];
+    }
+  }
+  private save() {
+    window.localStorage.setItem('DATA', JSON.stringify(this.data));
+  }
+  private load() {
+    let dataStr = window.localStorage.getItem('DATA');
+    try {
+      this.data = JSON.parse(dataStr);
+    } catch (err) {
+      this.data = {};
     }
   }
 }

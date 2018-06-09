@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TeamActions } from '../../redux/actions/team.actions';
 import { newId } from '../../common/new-id';
+import { getCurrentUrl } from '../../common/window-utils';
 
 @Component({
   selector: 'manage-team',
@@ -9,11 +10,10 @@ import { newId } from '../../common/new-id';
 })
 export class ManageTeamComponent {
   public teamName: string;
-  constructor(private store: Store<any>) {}
-  public onSubmit(event) {
-    console.log('submit', event);
-    this.store.dispatch(
-      new TeamActions.AddOne({ id: newId(), name: this.teamName })
-    );
+  get currentUrl() {
+    return getCurrentUrl();
   }
+
+  constructor(private store: Store<any>) {}
+  public onSubmit(event) {}
 }

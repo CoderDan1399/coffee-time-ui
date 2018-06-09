@@ -8,6 +8,7 @@ https://coffee-time-ui.firebaseapp.com/#
 - add create team page
 - add about page
 - get e2e tests running on build server.
+- add 404 page.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 

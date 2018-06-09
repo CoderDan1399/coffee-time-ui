@@ -4,5 +4,5 @@ export function newId() {
       .toString(16)
       .substring(1);
   }
-  return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  return window.btoa(s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4());
 }
