@@ -15,7 +15,10 @@ export class TeamEffects {
     switchMap((action: TeamActions.Save) => {
       return this.teamService.addTeam(action.payload).pipe(
         map(() => new TeamActions.SaveSuccess()),
-        catchError(err => of(new TeamActions.SaveFail('failed to create team')))
+        catchError(err => {
+          console.error(err);
+          return of(new TeamActions.SaveFail('failed to create team'));
+        })
       );
     })
   );

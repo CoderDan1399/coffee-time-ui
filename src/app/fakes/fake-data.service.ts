@@ -46,7 +46,7 @@ export class FakeDataService {
   }
 
   private createArrayIfRequired(key) {
-    if (!this.data[key] || Array.isArray(this.data[key]) == false) {
+    if (!this.data[key] || Array.isArray(this.data[key]) === false) {
       this.data[key] = [];
     }
   }
@@ -54,11 +54,12 @@ export class FakeDataService {
     window.localStorage.setItem('DATA', JSON.stringify(this.data));
   }
   private load() {
-    let dataStr = window.localStorage.getItem('DATA');
+    this.data = {};
     try {
-      this.data = JSON.parse(dataStr);
-    } catch (err) {
-      this.data = {};
-    }
+      const dataStr = window.localStorage.getItem('DATA');
+      if (dataStr) {
+        this.data = JSON.parse(dataStr);
+      }
+    } catch {}
   }
 }

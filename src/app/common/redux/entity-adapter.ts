@@ -9,27 +9,28 @@ export interface EntityActionTypes {
   UpsertOne: string;
 }
 
-export function entityAdapterReducer<T>(
+export function entityAdapterReducerFactory<T>(
   adapter: EntityAdapter<T>,
   actionTypes: EntityActionTypes,
-  state,
-  action: ActionWithPayload
+  initialState
 ) {
-  switch (action.type) {
-    case actionTypes.AddOne: {
-      return adapter.addOne(action.payload, state);
+  return function(state = initialState, action) {
+    switch (action.type) {
+      case actionTypes.AddOne: {
+        return adapter.addOne(action.payload, state);
+      }
+      case actionTypes.UpdateOne: {
+        return adapter.updateOne(action.payload, state);
+      }
+      case actionTypes.RemoveOne: {
+        return adapter.removeOne(action.payload, state);
+      }
+      case actionTypes.UpsertOne: {
+        return adapter.upsertOne(action.payload, state);
+      }
     }
-    case actionTypes.UpdateOne: {
-      return adapter.updateOne(action.payload, state);
-    }
-    case actionTypes.RemoveOne: {
-      return adapter.removeOne(action.payload, state);
-    }
-    case actionTypes.UpsertOne: {
-      return adapter.upsertOne(action.payload, state);
-    }
-  }
-  return state;
+    return state;
+  };
 }
 
 export function combineReducers(...reducers) {

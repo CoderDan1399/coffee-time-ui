@@ -3,12 +3,12 @@ import { Action } from '@ngrx/store';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { TeamActions } from '../actions/team.actions';
 import {
-  entityAdapterReducer,
   combineReducers,
   getSavingState,
   getSavedState,
   getSaveFailState,
   getInitialSavingState,
+  entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
 
@@ -24,11 +24,16 @@ const initialState = adapter.getInitialState(getInitialSavingState());
 
 const actionTypes = TeamActions.ActionTypes;
 
-export function reducer(
+const commonReducer = entityAdapterReducerFactory(
+  adapter,
+  actionTypes,
+  initialState
+);
+
+const customReducer = (
   state: State = initialState,
   action: ActionWithPayload
-) {
-  state = entityAdapterReducer(adapter, TeamActions.ActionTypes, state, action);
+) => {
   switch (action.type) {
     case TeamActions.ActionTypes.Save: {
       return { ...state, ...getSavingState() };
@@ -41,4 +46,9 @@ export function reducer(
     }
   }
   return state;
+};
+
+const combinedReducer = combineReducers(commonReducer, customReducer);
+export function reducer(state, action) {
+  return combinedReducer(state, action);
 }
