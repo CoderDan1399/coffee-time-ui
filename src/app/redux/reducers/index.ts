@@ -50,3 +50,6 @@ export const getUsersState = (state: State) => state.users;
 
 //Application
 export const getApplicationState = (state: State) => state.application;
+
+//router
+export const getRouterState = state => state.router;

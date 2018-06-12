@@ -18,7 +18,7 @@ export interface State extends EntityState<EntityType> {
   saveFail: any;
 }
 
-const adapter = createEntityAdapter<EntityType>();
+export const adapter = createEntityAdapter<EntityType>();
 
 const initialState = adapter.getInitialState(getInitialSavingState());
 

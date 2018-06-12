@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { getUrlSelector } from './redux/selectors/router.selectors';
+import { RouterSelectors } from './redux/selectors/router.selectors';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,8 @@ export class AppComponent {
   title = 'app';
   url$: Observable<string>;
   constructor(private store: Store<any>) {
-    this.url$ = this.store.select(getUrlSelector).pipe(filter(Boolean));
+    this.url$ = this.store
+      .select(RouterSelectors.getUrlSelector)
+      .pipe(filter(Boolean));
   }
 }

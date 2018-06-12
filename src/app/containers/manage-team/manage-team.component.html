@@ -10,7 +10,7 @@
                [disabled]=true
                value="{{currentUrl}}">
     </div>
-    <user-list></user-list>
+    <user-list [users]="users$ |async"></user-list>
 
     <button (click)="addUser()">Add User</button>
 

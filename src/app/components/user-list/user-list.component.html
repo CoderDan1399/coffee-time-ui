@@ -5,5 +5,12 @@
         <th>Initials</th>
         <th>URL</th>
     </thead>
-    <tbody></tbody>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>
+                {{user.initials}}
+            </td>
+            <td>{{user.name}}</td>
+        </tr>
+    </tbody>
 </table>

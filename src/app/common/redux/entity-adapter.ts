@@ -4,6 +4,8 @@ import { ActionWithPayload } from '../../redux/actions/common';
 
 export interface EntityActionTypes {
   AddOne: string;
+  AddAll: string;
+  AddMany: string;
   UpdateOne: string;
   RemoveOne: string;
   UpsertOne: string;
@@ -27,6 +29,12 @@ export function entityAdapterReducerFactory<T>(
       }
       case actionTypes.UpsertOne: {
         return adapter.upsertOne(action.payload, state);
+      }
+      case actionTypes.AddAll: {
+        return adapter.addAll(action.payload, state);
+      }
+      case actionTypes.AddMany: {
+        return adapter.addMany(action.payload, state);
       }
     }
     return state;

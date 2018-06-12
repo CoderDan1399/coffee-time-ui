@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { getUsersState as getState } from '../reducers';
+import { getUsersState as getState, getUsersState } from '../reducers';
+import { adapter } from '../reducers/users.reducer';
 
 export namespace UserSelectors {
   export const getHasSavedSelector = createSelector(
@@ -14,4 +15,6 @@ export namespace UserSelectors {
     getState,
     state => state.saveFail
   );
+
+  export const commonSelectors = adapter.getSelectors(getUsersState);
 }

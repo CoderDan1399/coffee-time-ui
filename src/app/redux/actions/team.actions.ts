@@ -6,6 +6,8 @@ import { ActionWithPayload } from './common';
 export namespace TeamActions {
   export enum ActionTypes {
     AddOne = '[team] add one',
+    AddAll = '[team] add all',
+    AddMany = '[team] add many',
     UpdateOne = '[team] update one',
     RemoveOne = '[team] remove one',
     UpsertOne = '[team] upsert one',
@@ -16,6 +18,16 @@ export namespace TeamActions {
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
     constructor(public payload: EntityType) {}
+  }
+
+  export class AddAll implements ActionWithPayload {
+    readonly type: string = ActionTypes.AddAll;
+    constructor(public payload: EntityType[]) {}
+  }
+
+  export class AddMany implements ActionWithPayload {
+    readonly type: string = ActionTypes.AddMany;
+    constructor(public payload: EntityType[]) {}
   }
 
   export class UpsertOne implements ActionWithPayload {
@@ -48,5 +60,11 @@ export namespace TeamActions {
     constructor(public payload: any) {}
   }
 
-  export type ActionsUnion = AddOne | Save | SaveSuccess | SaveFail;
+  export type ActionsUnion =
+    | AddOne
+    | Save
+    | SaveSuccess
+    | SaveFail
+    | AddAll
+    | AddMany;
 }
