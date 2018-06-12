@@ -16,7 +16,7 @@ export class CanActivateMangeTeam implements CanActivate {
   ): boolean | Observable<boolean> | Promise<boolean> {
     console.log({ route, state });
     return this.teamService
-      .verifySecret(route.params['id'], route.params['secret'])
+      .verifySecret(route.params['teamId'], route.params['secret'])
       .pipe(
         tap(result => {
           if (result === false) {

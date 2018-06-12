@@ -1,7 +1,6 @@
-import { Team } from '../models/team.model';
+import { User as EntityType } from '../models/User.model';
 import { Action } from '@ngrx/store';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { TeamActions } from '../actions/team.actions';
 import {
   combineReducers,
   getSavingState,
@@ -11,18 +10,19 @@ import {
   entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
+import { UserActions } from '../actions/user.actions';
 
-export interface State extends EntityState<Team> {
+export interface State extends EntityState<EntityType> {
   saving: boolean;
   saved: boolean;
   saveFail: any;
 }
 
-const adapter = createEntityAdapter<Team>();
+const adapter = createEntityAdapter<EntityType>();
 
 const initialState = adapter.getInitialState(getInitialSavingState());
 
-const actionTypes = TeamActions.ActionTypes;
+const actionTypes = UserActions.ActionTypes;
 
 const commonReducer = entityAdapterReducerFactory(
   adapter,
@@ -35,13 +35,13 @@ const customReducer = (
   action: ActionWithPayload
 ) => {
   switch (action.type) {
-    case TeamActions.ActionTypes.Save: {
+    case actionTypes.Save: {
       return { ...state, ...getSavingState() };
     }
-    case TeamActions.ActionTypes.SaveSuccess: {
+    case actionTypes.SaveSuccess: {
       return { ...state, ...getSavedState() };
     }
-    case TeamActions.ActionTypes.SaveFail: {
+    case actionTypes.SaveFail: {
       return { ...state, ...getSaveFailState(action.payload) };
     }
   }

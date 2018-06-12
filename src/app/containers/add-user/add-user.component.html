@@ -1,0 +1,21 @@
+<div>
+    <h2>Add User</h2>
+</div>
+<div>
+    <label for="name">Name</label>
+    <input id="name"
+           name="name"
+           type="text"
+           [(ngModel)]="name">
+</div>
+
+<div>
+    <label for="initials">Initials</label>
+    <input id="initials"
+           name="initials"
+           type="text"
+           [(ngModel)]="initials">
+</div>
+<div>
+    <button (click)="onAdd()">Add user</button>
+</div>

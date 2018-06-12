@@ -21,7 +21,8 @@ export class TeamResolver implements Resolve<Team> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Team | Observable<Team> | Promise<Team> {
-    return this.teamService.getTeam(route.params['id']).pipe(
+    console.log('route', route);
+    return this.teamService.getTeam(route.params['teamId']).pipe(
       tap(team => {
         if (team) {
           this.store.dispatch(new TeamActions.UpsertOne(team));

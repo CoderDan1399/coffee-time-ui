@@ -8,12 +8,20 @@ import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CanActivateMangeTeam } from './guards/can-manage-team';
 import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
 import { TeamResolver } from './guards/team-resolver';
+import { AddUserComponent } from './containers/add-user/add-user.component';
 
 const routes: Routes = [
   { path: 'create-team', component: CreateTeamComponent },
   {
-    path: 'team/manage',
+    path: 'team/:teamId/manage/:secret',
     component: ManageTeamComponent,
+    resolve: { team: TeamResolver },
+    canActivate: [CanActivateMangeTeam],
+    children: [],
+  },
+  {
+    path: 'team/:teamId/manage/:secret/user/add',
+    component: AddUserComponent,
     resolve: { team: TeamResolver },
     canActivate: [CanActivateMangeTeam],
   },

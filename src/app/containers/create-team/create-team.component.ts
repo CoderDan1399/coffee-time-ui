@@ -29,10 +29,7 @@ export class CreateTeamComponent implements OnDestroy, OnInit {
         takeUntil(this.destroy$),
         filter(Boolean),
         tap(() =>
-          this.router.navigate([
-            `/team/manage`,
-            { secret: this.secret, id: this.id },
-          ])
+          this.router.navigate(['/team', this.id, 'manage', this.secret])
         )
       )
       .subscribe();

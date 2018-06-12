@@ -11,7 +11,6 @@ export class TeamEffects {
 
   @Effect()
   public save$ = this.actions.ofType(TeamActions.ActionTypes.Save).pipe(
-    tap(() => console.log('in effect')),
     switchMap((action: TeamActions.Save) => {
       return this.teamService.addTeam(action.payload).pipe(
         map(() => new TeamActions.SaveSuccess()),

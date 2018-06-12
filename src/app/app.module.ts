@@ -30,36 +30,17 @@ import { NotAuthorizedComponent } from './containers/not-authorized/not-authoriz
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CanActivateMangeTeam } from './guards/can-manage-team';
 import { TeamResolver } from './guards/team-resolver';
-
-const DECLARATIONS = [
-  AppComponent,
-  HomePageComponent,
-  CreateTeamComponent,
-  ManageTeamComponent,
-  UserListComponent,
-  NotAuthorizedComponent,
-  NotFoundComponent,
-];
+import { AddUserComponent } from './containers/add-user/add-user.component';
+import { DECLARATIONS } from './index.declarations';
+import { PROVIDERS } from './index.providers';
+import { UserEffects } from './redux/effects/user.effects';
 
 const IMPORTS = [
   BrowserModule,
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
-  EffectsModule.forRoot([TeamEffects]),
-];
-
-const FAKE_SERVICES = [
-  { provide: TeamService, useClass: FakeTeamService },
-  { provide: UserService, useClass: FakeUserService },
-];
-const SERVICES = [TeamService, UserService];
-
-const PROVIDERS = [
-  FakeDataService,
-  CanActivateMangeTeam,
-  TeamResolver,
-  ...FAKE_SERVICES,
+  EffectsModule.forRoot([TeamEffects, UserEffects]),
 ];
 
 @NgModule({
