@@ -1,0 +1,39 @@
+import { Action } from '@ngrx/store';
+import { Team as EntityType } from '../models/team.model';
+import { createEntityAdapter } from '@ngrx/entity';
+import { ActionWithPayload } from './common';
+
+export namespace TeamToUserActions {
+  export enum ActionTypes {
+    AddOne = '[team to user] add one',
+    UpdateOne = '[team to user] update one',
+    RemoveOne = '[team to user] remove one',
+    UpsertOne = '[team to user] upsert one',
+  }
+  export class AddOne implements ActionWithPayload {
+    readonly type: string = ActionTypes.AddOne;
+    constructor(public payload: EntityType) {}
+  }
+
+  export class UpsertOne implements ActionWithPayload {
+    readonly type: string = ActionTypes.UpsertOne;
+    constructor(public payload: EntityType) {}
+  }
+
+  export class UpdateOne implements ActionWithPayload {
+    readonly type: string = ActionTypes.UpdateOne;
+    constructor(public payload: EntityType) {}
+  }
+
+  export class RemoveOne implements ActionWithPayload {
+    readonly type: string = ActionTypes.RemoveOne;
+    constructor(public payload: string) {}
+  }
+
+  export type ActionsUnion =
+    | AddOne
+    | RemoveOne
+    | UpdateOne
+    | UpsertOne
+    | AddOne;
+}

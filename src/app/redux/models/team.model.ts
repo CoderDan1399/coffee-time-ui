@@ -3,3 +3,7 @@ export interface Team {
   id: string;
   secret: string;
 }
+
+export interface TeamToUsers {
+  userIds: string[];
+}

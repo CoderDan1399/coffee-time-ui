@@ -11,12 +11,14 @@ import { environment } from '../../../environments/environment';
 import * as fromTeams from './teams.reducer';
 import * as fromUsers from './users.reducer';
 import * as fromApplication from './application';
+import * as fromTeamToUsers from './team-to-users.reducer';
 import { reducer } from './users.reducer';
 export interface State {
   router: any;
   teams: fromTeams.State;
   application: fromApplication.State;
   users: fromUsers.State;
+  teamToUsers: fromTeamToUsers.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -24,6 +26,7 @@ export const reducers: ActionReducerMap<State> = {
   teams: fromTeams.reducer,
   users: reducer,
   application: fromApplication.reducer,
+  teamToUsers: fromTeamToUsers.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = environment.production
