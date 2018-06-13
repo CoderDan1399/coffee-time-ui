@@ -4,6 +4,7 @@
         <th>Username</th>
         <th>Initials</th>
         <th>URL</th>
+        <th></th>
     </thead>
     <tbody>
         <tr *ngFor="let user of users">
@@ -11,6 +12,14 @@
                 {{user.initials}}
             </td>
             <td>{{user.name}}</td>
+            <td>
+                <textarea readonly
+                          (focus)="selectAll($event)"
+                          style="width:20em;height:5em">{{getUserUrl(user)}}</textarea>
+            </td>
+            <td>
+                <button>remove</button>
+            </td>
         </tr>
     </tbody>
 </table>
