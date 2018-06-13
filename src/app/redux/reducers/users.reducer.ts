@@ -1,4 +1,4 @@
-import { User as EntityType } from '../models/User.model';
+import { User as EntityType } from '../models/user.model';
 import { Action } from '@ngrx/store';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import {
