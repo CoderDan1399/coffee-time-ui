@@ -40,7 +40,8 @@ export class TeamResolver implements Resolve<Team> {
       switchMap(team =>
         this.userService.getUsersForTeam(team.id).pipe(
           tap(users => this.store.dispatch(new UserActions.UpsertMany(users))),
-          map(always(team))
+          map(always(team)),
+          delay(2000)
         )
       )
     );
