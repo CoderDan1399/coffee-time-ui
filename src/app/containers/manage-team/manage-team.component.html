@@ -5,9 +5,9 @@
     <div class="form-group">
         <label for="currentUrl">Mange Team URL(Private)</label>
         <input id="currentUrl"
+               readonly
                type="text"
                width="50em"
-               [disabled]=true
                value="{{currentUrl}}">
     </div>
     <user-list [users]="users$ |async"></user-list>
