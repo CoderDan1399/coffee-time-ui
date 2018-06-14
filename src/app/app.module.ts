@@ -29,7 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CanActivateMangeTeam } from './guards/can-manage-team';
-import { TeamResolver } from './guards/team-resolver';
+import { TeamResolver } from './guards/team.resolver';
 import { AddUserComponent } from './containers/add-user/add-user.component';
 import { DECLARATIONS } from './index.declarations';
 import { PROVIDERS } from './index.providers';

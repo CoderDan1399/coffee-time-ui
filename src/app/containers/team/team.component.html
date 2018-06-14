@@ -1,0 +1,12 @@
+<ng-container *ngIf="(allUsers$ | async) as allUsers">
+    <ng-container *ngIf="(user$ | async) as user">
+        <div *ngIf="(team$ | async) as team">
+            <h2>
+                Team {{team.name}}, user {{user.name}}
+            </h2>
+            <span>
+                {{allUsers | json}}
+            </span>
+        </div>
+    </ng-container>
+</ng-container>

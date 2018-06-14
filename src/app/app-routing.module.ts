@@ -7,8 +7,10 @@ import { ManageTeamComponent } from './containers/manage-team/manage-team.compon
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { CanActivateMangeTeam } from './guards/can-manage-team';
 import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
-import { TeamResolver } from './guards/team-resolver';
+import { TeamResolver } from './guards/team.resolver';
 import { AddUserComponent } from './containers/add-user/add-user.component';
+import { UserResolver } from './guards/user.resolver';
+import { TeamComponent } from './containers/team/team.component';
 
 const routes: Routes = [
   { path: 'create-team', component: CreateTeamComponent },
@@ -24,6 +26,11 @@ const routes: Routes = [
     component: AddUserComponent,
     resolve: { team: TeamResolver },
     canActivate: [CanActivateMangeTeam],
+  },
+  {
+    path: 'team/:teamId/:userId',
+    component: TeamComponent,
+    resolve: { team: TeamResolver, user: UserResolver },
   },
   { path: '', component: HomePageComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent },

@@ -4,7 +4,8 @@ import { FakeUserService } from './fakes/fake-user.service';
 import { UserService } from './services/user.service';
 import { FakeDataService } from './fakes/fake-data.service';
 import { CanActivateMangeTeam } from './guards/can-manage-team';
-import { TeamResolver } from './guards/team-resolver';
+import { TeamResolver } from './guards/team.resolver';
+import { UserResolver } from './guards/user.resolver';
 
 const FAKE_SERVICES = [
   { provide: TeamService, useClass: FakeTeamService },
@@ -16,5 +17,6 @@ export const PROVIDERS = [
   FakeDataService,
   CanActivateMangeTeam,
   TeamResolver,
+  UserResolver,
   ...FAKE_SERVICES,
 ];

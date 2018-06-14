@@ -9,6 +9,7 @@ export interface EntityActionTypes {
   UpdateOne: string;
   RemoveOne: string;
   UpsertOne: string;
+  UpsertMany: string;
 }
 
 export function entityAdapterReducerFactory<T>(
@@ -35,6 +36,9 @@ export function entityAdapterReducerFactory<T>(
       }
       case actionTypes.AddMany: {
         return adapter.addMany(action.payload, state);
+      }
+      case actionTypes.UpsertMany: {
+        return adapter.upsertMany(action.payload, state);
       }
     }
     return state;

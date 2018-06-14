@@ -8,14 +8,15 @@ import {
 import * as fromRouter from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
-import * as fromTeams from './teams.reducer';
 import * as fromUsers from './users.reducer';
 import * as fromApplication from './application';
 import * as fromTeamToUsers from './team-to-users.reducer';
 import { reducer } from './users.reducer';
+import { TeamsReducer } from './teams.reducer';
+import { TeamSelectors } from '../selectors/team.selectors';
 export interface State {
   router: any;
-  teams: fromTeams.State;
+  teams: TeamsReducer.State;
   application: fromApplication.State;
   users: fromUsers.State;
   teamToUsers: fromTeamToUsers.State;
@@ -23,7 +24,7 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
   router: fromRouter.routerReducer,
-  teams: fromTeams.reducer,
+  teams: TeamsReducer.reducer,
   users: reducer,
   application: fromApplication.reducer,
   teamToUsers: fromTeamToUsers.reducer,
@@ -44,6 +45,9 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 
 // Teams
 export const getTeamsState = (state: State) => state.teams;
+export const getTeamsCommonSelectors = TeamsReducer.adapter.getSelectors(
+  getTeamsState
+);
 
 // Users
 export const getUsersState = (state: State) => state.users;

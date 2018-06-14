@@ -11,6 +11,7 @@ export namespace TeamToUserActions {
     UpdateOne = '[team to user] update one',
     RemoveOne = '[team to user] remove one',
     UpsertOne = '[team to user] upsert one',
+    UpsertMany = '[team to user] upsert many',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -19,6 +20,11 @@ export namespace TeamToUserActions {
 
   export class AddAll implements ActionWithPayload {
     readonly type: string = ActionTypes.AddAll;
+    constructor(public payload: EntityType[]) {}
+  }
+
+  export class UpsertMany implements ActionWithPayload {
+    readonly type: string = ActionTypes.UpsertMany;
     constructor(public payload: EntityType[]) {}
   }
 
@@ -49,5 +55,7 @@ export namespace TeamToUserActions {
     | UpsertOne
     | AddAll
     | AddMany
-    | AddOne;
+    | AddOne
+    | UpsertMany
+    | UpsertOne;
 }

@@ -14,6 +14,7 @@ export namespace UserActions {
     Save = '[user] save',
     SaveSuccess = '[user] save success',
     SaveFail = '[user] save fail',
+    UpsertMany = '[user] upsert many',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -22,6 +23,11 @@ export namespace UserActions {
 
   export class AddAll implements ActionWithPayload {
     readonly type: string = ActionTypes.AddAll;
+    constructor(public payload: EntityType[]) {}
+  }
+
+  export class UpsertMany implements ActionWithPayload {
+    readonly type: string = ActionTypes.UpsertMany;
     constructor(public payload: EntityType[]) {}
   }
 
@@ -66,5 +72,7 @@ export namespace UserActions {
     | SaveSuccess
     | SaveFail
     | AddAll
+    | UpsertOne
+    | UpsertMany
     | AddMany;
 }

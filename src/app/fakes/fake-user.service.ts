@@ -10,6 +10,13 @@ import { UserDetails, User } from '../redux/models/user.model';
 const USERS_KEY = 'USERS';
 @Injectable()
 export class FakeUserService implements IUserService {
+  getUser(userId: string): Observable<User> {
+    const user = this.data.getFromArray(
+      USERS_KEY,
+      item => item.id === userId
+    )[0];
+    return of(user);
+  }
   constructor(private data: FakeDataService) {}
   addUser(user: UserDetails): Observable<any> {
     return of(null).pipe(tap(() => this.data.addToArray(USERS_KEY, user)));

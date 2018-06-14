@@ -12,43 +12,44 @@ import {
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
 
-export interface State extends EntityState<EntityType> {
-  saving: boolean;
-  saved: boolean;
-  saveFail: any;
-}
-
-const adapter = createEntityAdapter<EntityType>();
-
-const initialState = adapter.getInitialState(getInitialSavingState());
-
-const actionTypes = TeamActions.ActionTypes;
-
-const commonReducer = entityAdapterReducerFactory(
-  adapter,
-  actionTypes,
-  initialState
-);
-
-const customReducer = (
-  state: State = initialState,
-  action: ActionWithPayload
-) => {
-  switch (action.type) {
-    case actionTypes.Save: {
-      return { ...state, ...getSavingState() };
-    }
-    case actionTypes.SaveSuccess: {
-      return { ...state, ...getSavedState() };
-    }
-    case actionTypes.SaveFail: {
-      return { ...state, ...getSaveFailState(action.payload) };
-    }
+export namespace TeamsReducer {
+  export interface State extends EntityState<EntityType> {
+    saving: boolean;
+    saved: boolean;
+    saveFail: any;
   }
-  return state;
-};
+  export const adapter = createEntityAdapter<EntityType>();
 
-const combinedReducer = combineReducers(commonReducer, customReducer);
-export function reducer(state, action) {
-  return combinedReducer(state, action);
+  const initialState = adapter.getInitialState(getInitialSavingState());
+
+  const actionTypes = TeamActions.ActionTypes;
+
+  const commonReducer = entityAdapterReducerFactory(
+    adapter,
+    actionTypes,
+    initialState
+  );
+
+  const customReducer = (
+    state: State = initialState,
+    action: ActionWithPayload
+  ) => {
+    switch (action.type) {
+      case actionTypes.Save: {
+        return { ...state, ...getSavingState() };
+      }
+      case actionTypes.SaveSuccess: {
+        return { ...state, ...getSavedState() };
+      }
+      case actionTypes.SaveFail: {
+        return { ...state, ...getSaveFailState(action.payload) };
+      }
+    }
+    return state;
+  };
+
+  const combinedReducer = combineReducers(commonReducer, customReducer);
+  export function reducer(state, action) {
+    return combinedReducer(state, action);
+  }
 }

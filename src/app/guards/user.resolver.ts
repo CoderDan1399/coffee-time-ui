@@ -13,11 +13,11 @@ import { UserService } from '../services/user.service';
 import { UserActions } from '../redux/actions/user.actions';
 import { always } from 'ramda';
 import { delay } from 'rxjs/internal/operators/delay';
+import { User } from '../redux/models/user.model';
 
 @Injectable()
-export class TeamResolver implements Resolve<Team> {
+export class UserResolver implements Resolve<User> {
   constructor(
-    private teamService: TeamService,
     private userService: UserService,
     private store: Store<any>,
     private router: Router
@@ -25,26 +25,18 @@ export class TeamResolver implements Resolve<Team> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Team | Observable<Team> | Promise<Team> {
-    console.log('route', route);
-    return this.teamService.getTeam(route.params['teamId']).pipe(
-      tap(team => {
-        if (team) {
-          this.store.dispatch(new TeamActions.UpsertOne(team));
+  ): User | Observable<User> | Promise<User> {
+    return this.userService.getUser(route.params['userId']).pipe(
+      tap(user => {
+        if (user) {
+          this.store.dispatch(new UserActions.UpsertOne(user));
           this.store.dispatch(
-            new ApplicationActions.Update({ currentTeam: team.id })
+            new ApplicationActions.Update({ currentUser: user.id })
           );
         } else {
-          console.log('going not found');
           this.router.navigate(['not-found']);
         }
-      }),
-      switchMap(team =>
-        this.userService.getUsersForTeam(team.id).pipe(
-          tap(users => this.store.dispatch(new UserActions.AddAll(users))),
-          map(always(team))
-        )
-      )
+      })
     );
   }
 }

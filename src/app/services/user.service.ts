@@ -10,6 +10,11 @@ export class UserService implements IUserService {
   addUser(user: UserDetails): Observable<any> {
     return of(null);
   }
+
+  getUser(userId: string): Observable<User> {
+    return of(null);
+  }
+
   updateUser(user: UserDetails): Observable<any> {
     return of(null);
   }
@@ -19,6 +24,7 @@ export class UserService implements IUserService {
 }
 
 export interface IUserService {
+  getUser(userId: string): Observable<User>;
   addUser(user: UserDetails): Observable<any>;
   updateUser(user: UserDetails): Observable<any>;
   removeUser(userId: string): Observable<any>;

@@ -4,9 +4,9 @@ import { TeamActions } from '../../redux/actions/team.actions';
 import { newId } from '../../common/new-id';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { getHasSavedSelector } from '../../redux/selectors/team.selectors';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { Team } from '../../redux/models/team.model';
+import { TeamSelectors } from '../../redux/selectors/team.selectors';
 
 @Component({
   selector: 'create-team',
@@ -24,7 +24,7 @@ export class CreateTeamComponent implements OnDestroy, OnInit {
   }
   ngOnInit(): void {
     this.store
-      .select(getHasSavedSelector)
+      .select(TeamSelectors.getHasSavedSelector)
       .pipe(
         takeUntil(this.destroy$),
         filter(Boolean),

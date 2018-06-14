@@ -14,7 +14,7 @@
             <td>{{user.name}}</td>
             <td>
                 <textarea readonly
-                          (focus)="selectAll($event)"
+                          (click)="selectAll($event)"
                           style="width:20em;height:5em">{{getUserUrl(user)}}</textarea>
             </td>
             <td>

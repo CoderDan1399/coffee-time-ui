@@ -11,6 +11,7 @@ export namespace TeamActions {
     UpdateOne = '[team] update one',
     RemoveOne = '[team] remove one',
     UpsertOne = '[team] upsert one',
+    UpsertMany = '[team] upsert many',
     Save = '[team] save',
     SaveSuccess = '[team] save success',
     SaveFail = '[team] save fail',
@@ -22,6 +23,11 @@ export namespace TeamActions {
 
   export class AddAll implements ActionWithPayload {
     readonly type: string = ActionTypes.AddAll;
+    constructor(public payload: EntityType[]) {}
+  }
+
+  export class UpsertMany implements ActionWithPayload {
+    readonly type: string = ActionTypes.UpsertMany;
     constructor(public payload: EntityType[]) {}
   }
 
@@ -66,5 +72,7 @@ export namespace TeamActions {
     | SaveSuccess
     | SaveFail
     | AddAll
-    | AddMany;
+    | AddMany
+    | UpsertMany
+    | UpsertOne;
 }

@@ -14,7 +14,7 @@ export class UserListComponent {
 
   public getUserUrl(user: User) {
     const url = this.location.prepareExternalUrl(
-      `/team/${user.teamId}/coffee?user=${user.id}&secret=${user.secret}`
+      `/team/${user.teamId}/${user.id}?secret=${user.secret}`
     );
     return `${window.location.protocol}//${window.location.hostname}:${
       window.location.port

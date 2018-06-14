@@ -4,18 +4,38 @@ import { TeamActions } from '../../redux/actions/team.actions';
 import { newId } from '../../common/new-id';
 import { getCurrentUrl } from '../../common/window-utils';
 import { Router, ActivatedRoute } from '@angular/router';
-import { first, tap } from 'rxjs/operators';
+import { first, tap, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from '../../redux/models/user.model';
 import { RouterSelectors } from '../../redux/selectors/router.selectors';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
+import { Team } from '../../redux/models/team.model';
+import { TeamSelectors } from '../../redux/selectors/team.selectors';
+import { curry } from 'ramda';
 
 @Component({
   selector: 'manage-team',
   templateUrl: './manage-team.component.html',
 })
 export class ManageTeamComponent implements OnInit {
+  public team$: Observable<Team>;
+  public teamName: string;
+  public users$: Observable<User[]>;
+  get currentUrl() {
+    return getCurrentUrl();
+  }
+
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
+    this.team$ = this.store.select(TeamSelectors.getCurrentTeamSelector).pipe(
+      tap(val => console.log('team', val)),
+      filter(Boolean)
+    );
     let userSelector = createSelector(
       RouterSelectors.getTeamIdSelector,
       UserSelectors.commonSelectors.selectAll,
@@ -28,17 +48,6 @@ export class ManageTeamComponent implements OnInit {
       .select(userSelector)
       .pipe(tap(val => console.log(val)));
   }
-  public teamName: string;
-  public users$: Observable<User[]>;
-  get currentUrl() {
-    return getCurrentUrl();
-  }
-
-  constructor(
-    private store: Store<any>,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
   public onSubmit(event) {}
   public addUser() {
     console.log('huh', this.router.routerState);
