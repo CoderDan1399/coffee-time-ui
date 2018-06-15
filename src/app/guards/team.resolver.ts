@@ -12,7 +12,6 @@ import { ApplicationActions } from '../redux/actions/application.actions';
 import { UserService } from '../services/user.service';
 import { UserActions } from '../redux/actions/user.actions';
 import { always } from 'ramda';
-import { delay } from 'rxjs/internal/operators/delay';
 
 @Injectable()
 export class TeamResolver implements Resolve<Team> {
@@ -40,8 +39,7 @@ export class TeamResolver implements Resolve<Team> {
       switchMap(team =>
         this.userService.getUsersForTeam(team.id).pipe(
           tap(users => this.store.dispatch(new UserActions.UpsertMany(users))),
-          map(always(team)),
-          delay(2000)
+          map(always(team))
         )
       )
     );

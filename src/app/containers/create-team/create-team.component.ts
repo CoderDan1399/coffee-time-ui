@@ -9,7 +9,7 @@ import { Team } from '../../redux/models/team.model';
 import { TeamSelectors } from '../../redux/selectors/team.selectors';
 
 @Component({
-  selector: 'create-team',
+  selector: 'app-create-team',
   templateUrl: './create-team.component.html',
 })
 export class CreateTeamComponent implements OnDestroy, OnInit {
@@ -34,7 +34,7 @@ export class CreateTeamComponent implements OnDestroy, OnInit {
       )
       .subscribe();
   }
-  public onSubmit(event) {
+  public onSubmit() {
     const team: Team = {
       id: this.id,
       name: this.teamName,
