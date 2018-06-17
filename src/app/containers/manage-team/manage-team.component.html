@@ -12,7 +12,7 @@
                width="50em"
                value="{{currentUrl}}">
     </div>
-    <user-list [users]="users$ |async"></user-list>
+    <app-user-list [users]="users$ |async"></app-user-list>
 
     <button (click)="addUser()">Add User</button>
 

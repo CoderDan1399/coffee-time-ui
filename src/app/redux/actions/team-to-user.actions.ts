@@ -1,6 +1,4 @@
-import { Action } from '@ngrx/store';
 import { Team as EntityType } from '../models/team.model';
-import { createEntityAdapter } from '@ngrx/entity';
 import { ActionWithPayload } from './common';
 
 export namespace TeamToUserActions {

@@ -1,0 +1,29 @@
+<p>
+  add-coffee works!
+</p>
+<h2>Whose buying</h2>
+<div>
+  <select>
+    <option *ngFor="let user of (users$ | async)"
+            [value]="user.id">{{user.name}}
+    </option>
+  </select>
+</div>
+
+<div>
+  <h3>Whose getting coffee</h3>
+  <div>
+    <ng-container *ngIf="(selectedUsers$ | async) as selectedUsers">
+
+
+      <app-select-user [users]="users$| async"
+                       (userSelected)="userClickHandler($event)"
+                       [selectedUsers]="selectedUsers$| async"></app-select-user>
+    </ng-container>
+  </div>
+  <hr>
+  <div>
+    <button (click)="saveHandler()">Save</button>
+
+  </div>
+</div>

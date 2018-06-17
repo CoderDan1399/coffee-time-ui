@@ -19,6 +19,11 @@ export class FakeDataService {
     this.save();
   }
 
+  replaceInArray<T>(key, newItem: T, selector: (item: T) => boolean) {
+    this.removeFromArray(key, selector);
+    this.addToArray(key, newItem);
+  }
+
   removeFromArray(key, selector: (item) => boolean) {
     this.createArrayIfRequired(key);
     this.data[key] = this.data[key].filter(
@@ -30,7 +35,7 @@ export class FakeDataService {
     this.save();
   }
 
-  getFromArray(key, selector: (item) => boolean): any[] {
+  getFromArray<T>(key, selector: (item: T) => boolean): T[] {
     this.createArrayIfRequired(key);
 
     return this.data[key].filter(selector);

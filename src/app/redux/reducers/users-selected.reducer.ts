@@ -1,28 +1,22 @@
-import { User as EntityType } from '../models/user.model';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { Id as EntityType } from '../models/id.model';
 import {
   combineReducers,
-  getSavingState,
-  getSavedState,
-  getSaveFailState,
   getInitialSavingState,
   entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
 import { UserActions } from '../actions/user.actions';
+import { UsersSelectedActions } from '../actions/users-selected.actions';
 
-export namespace UsersReducer {
-  const actionTypes = UserActions.ActionTypes;
-
-  export interface State extends EntityState<EntityType> {
-    saving: boolean;
-    saved: boolean;
-    saveFail: any;
-  }
+export namespace UsersSelectedReducer {
+  export interface State extends EntityState<EntityType> {}
 
   export const adapter = createEntityAdapter<EntityType>();
 
-  const initialState = adapter.getInitialState(getInitialSavingState());
+  const initialState = adapter.getInitialState();
+
+  const actionTypes = UsersSelectedActions.ActionTypes;
 
   const commonReducer = entityAdapterReducerFactory(
     adapter,
@@ -34,15 +28,14 @@ export namespace UsersReducer {
     state: State = initialState,
     action: ActionWithPayload
   ) => {
+    // placeholder for custom reducer methods.
     switch (action.type) {
-      case actionTypes.Save: {
-        return { ...state, ...getSavingState() };
-      }
-      case actionTypes.SaveSuccess: {
-        return { ...state, ...getSavedState() };
-      }
-      case actionTypes.SaveFail: {
-        return { ...state, ...getSaveFailState(action.payload) };
+      case UsersSelectedActions.ActionTypes.SelectUser: {
+        if (state.entities[action.payload]) {
+          return adapter.removeOne(action.payload, state);
+        } else {
+          return adapter.addOne({ id: action.payload }, state);
+        }
       }
     }
     return state;

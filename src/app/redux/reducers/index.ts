@@ -1,33 +1,35 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
-import * as fromUsers from './users.reducer';
 import * as fromApplication from './application';
 import * as fromTeamToUsers from './team-to-users.reducer';
-import { reducer } from './users.reducer';
 import { TeamsReducer } from './teams.reducer';
-import { TeamSelectors } from '../selectors/team.selectors';
+import { UsersReducer } from './users.reducer';
+import { UsersSelectedReducer } from './users-selected.reducer';
+import { TransactionsReducer } from './transactions.reducer';
+import { TransactionItemsReducer } from './transaction-items.reducer';
+
 export interface State {
   router: any;
   teams: TeamsReducer.State;
   application: fromApplication.State;
-  users: fromUsers.State;
+  users: UsersReducer.State;
   teamToUsers: fromTeamToUsers.State;
+  usersSelected: UsersSelectedReducer.State;
+  transactions: TransactionsReducer.State;
+  transactionItems: TransactionItemsReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
   router: fromRouter.routerReducer,
   teams: TeamsReducer.reducer,
-  users: reducer,
+  users: UsersReducer.reducer,
   application: fromApplication.reducer,
   teamToUsers: fromTeamToUsers.reducer,
+  usersSelected: UsersSelectedReducer.reducer,
+  transactions: TransactionsReducer.reducer,
+  transactionItems: TransactionItemsReducer.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = environment.production
@@ -52,8 +54,16 @@ export const getTeamsCommonSelectors = TeamsReducer.adapter.getSelectors(
 // Users
 export const getUsersState = (state: State) => state.users;
 
-//Application
+// Application
 export const getApplicationState = (state: State) => state.application;
 
-//router
+// router
 export const getRouterState = state => state.router;
+
+// Users selected
+export const getUsersSelectedState = (state: State) => state.usersSelected;
+
+export const getTransactionsState = (state: State) => state.transactions;
+
+export const getTransactionItemsState = (state: State) =>
+  state.transactionItems;

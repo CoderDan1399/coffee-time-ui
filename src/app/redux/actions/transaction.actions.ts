@@ -1,18 +1,18 @@
 import { Team as EntityType } from '../models/team.model';
 import { ActionWithPayload } from './common';
 
-export namespace TeamActions {
+export namespace TransactionActions {
   export enum ActionTypes {
-    AddOne = '[team] add one',
-    AddAll = '[team] add all',
-    AddMany = '[team] add many',
-    UpdateOne = '[team] update one',
-    RemoveOne = '[team] remove one',
-    UpsertOne = '[team] upsert one',
-    UpsertMany = '[team] upsert many',
-    Save = '[team] save',
-    SaveSuccess = '[team] save success',
-    SaveFail = '[team] save fail',
+    AddOne = '[transaction] add one',
+    AddAll = '[transaction] add all',
+    AddMany = '[transaction] add many',
+    UpdateOne = '[transaction] update one',
+    RemoveOne = '[transaction] remove one',
+    UpsertOne = '[transaction] upsert one',
+    UpsertMany = '[transaction] upsert many',
+    Save = '[transaction] save',
+    SaveSuccess = '[transaction] save success',
+    SaveFail = '[transaction] save fail',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;

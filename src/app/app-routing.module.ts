@@ -11,6 +11,7 @@ import { TeamResolver } from './guards/team.resolver';
 import { AddUserComponent } from './containers/add-user/add-user.component';
 import { UserResolver } from './guards/user.resolver';
 import { TeamComponent } from './containers/team/team.component';
+import { AddCoffeeComponent } from './containers/add-coffee/add-coffee.component';
 
 const routes: Routes = [
   { path: 'create-team', component: CreateTeamComponent },
@@ -31,6 +32,12 @@ const routes: Routes = [
     path: 'team/:teamId/:userId',
     component: TeamComponent,
     resolve: { team: TeamResolver, user: UserResolver },
+    children: [
+      {
+        path: 'add-coffee',
+        component: AddCoffeeComponent,
+      },
+    ],
   },
   { path: '', component: HomePageComponent },
   { path: 'not-authorized', component: NotAuthorizedComponent },

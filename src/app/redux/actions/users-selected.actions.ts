@@ -1,18 +1,22 @@
-import { Team as EntityType } from '../models/team.model';
+import { Id as EntityType } from '../models/id.model';
 import { ActionWithPayload } from './common';
 
-export namespace TeamActions {
+export namespace UsersSelectedActions {
   export enum ActionTypes {
-    AddOne = '[team] add one',
-    AddAll = '[team] add all',
-    AddMany = '[team] add many',
-    UpdateOne = '[team] update one',
-    RemoveOne = '[team] remove one',
-    UpsertOne = '[team] upsert one',
-    UpsertMany = '[team] upsert many',
-    Save = '[team] save',
-    SaveSuccess = '[team] save success',
-    SaveFail = '[team] save fail',
+    AddOne = '[users selected] add one',
+    AddAll = '[users selected] add all',
+    AddMany = '[users selected] add many',
+    UpdateOne = '[users selected] update one',
+    RemoveOne = '[users selected] remove one',
+    UpsertOne = '[users selected] upsert one',
+    UpsertMany = '[users selected] upsert many',
+
+    SelectUser = '[users selected] select user',
+  }
+
+  export class SelectUser implements ActionWithPayload {
+    readonly type: string = ActionTypes.SelectUser;
+    constructor(public payload: string) {}
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -49,28 +53,5 @@ export namespace TeamActions {
     constructor(public payload: string) {}
   }
 
-  export class Save implements ActionWithPayload {
-    readonly type: string = ActionTypes.Save;
-    constructor(public payload: EntityType) {}
-  }
-
-  export class SaveSuccess implements ActionWithPayload {
-    readonly type: string = ActionTypes.SaveSuccess;
-    constructor() {}
-  }
-
-  export class SaveFail implements ActionWithPayload {
-    readonly type: string = ActionTypes.SaveFail;
-    constructor(public payload: any) {}
-  }
-
-  export type ActionsUnion =
-    | AddOne
-    | Save
-    | SaveSuccess
-    | SaveFail
-    | AddAll
-    | AddMany
-    | UpsertMany
-    | UpsertOne;
+  export type ActionsUnion = AddOne | AddAll | AddMany | UpsertMany | UpsertOne;
 }

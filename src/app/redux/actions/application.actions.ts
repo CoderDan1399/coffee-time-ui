@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { ApplicationModels } from '../models/application.model';
 import { ActionWithPayload } from './common';
 

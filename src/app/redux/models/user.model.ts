@@ -1,14 +1,14 @@
-export interface UserDetails {
+export interface User {
   id: string;
   teamId: string;
   name: string;
   initials: string;
   secret: string;
 }
-export interface User extends UserDetails, UserTransactionDetails {}
 
-export interface UserTransactionDetails {
+export interface UserStats {
+  userId: string;
   purchased: number;
   consumed: number;
-  lastTransactionId: number;
+  refresh: boolean;
 }

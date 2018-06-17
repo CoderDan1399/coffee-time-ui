@@ -1,6 +1,4 @@
-import { Action } from '@ngrx/store';
 import { User as EntityType } from '../models/user.model';
-import { createEntityAdapter } from '@ngrx/entity';
 import { ActionWithPayload } from './common';
 
 export namespace UserActions {

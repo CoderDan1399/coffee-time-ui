@@ -17,7 +17,7 @@ import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'add-user',
+  selector: 'app-add-user',
   templateUrl: 'add-user.component.html',
 })
 export class AddUserComponent implements OnInit, OnDestroy {
@@ -54,12 +54,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           new UserActions.Save({
             id: this.id,
-            consumed: 0,
             initials: this.initials,
             name: this.name,
             teamId: params.teamId,
-            lastTransactionId: null,
-            purchased: 0,
             secret: this.secret,
           })
         );

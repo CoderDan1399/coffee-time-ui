@@ -7,33 +7,27 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './/app-routing.module';
 
-import {
-  StoreRouterConnectingModule,
-  RouterStateSerializer,
-} from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HomePageComponent } from './containers/home-page/home-page.component';
-import { CreateTeamComponent } from './containers/create-team/create-team.component';
-import { reducers, metaReducers } from './redux/reducers';
+import { metaReducers, reducers } from './redux/reducers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ManageTeamComponent } from './containers/manage-team/manage-team.component';
-import { UserListComponent } from './components/user-list/user-list.component';
-import { FakeDataService } from './fakes/fake-data.service';
-import { FakeTeamService } from './fakes/fake-team.service';
-import { TeamService } from './services/team.service';
-import { UserService } from './services/user.service';
-import { FakeUserService } from './fakes/fake-user.service';
 import { TeamEffects } from './redux/effects/team.effects';
 import { EffectsModule } from '@ngrx/effects';
-import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
-import { NotFoundComponent } from './containers/not-found/not-found.component';
-import { CanActivateMangeTeam } from './guards/can-manage-team';
-import { TeamResolver } from './guards/team.resolver';
-import { AddUserComponent } from './containers/add-user/add-user.component';
-import { DECLARATIONS } from './index.declarations';
 import { PROVIDERS } from './index.providers';
 import { UserEffects } from './redux/effects/user.effects';
+import { AddCoffeeComponent } from './containers/add-coffee/add-coffee.component';
+import { AddUserComponent } from './containers/add-user/add-user.component';
+import { ManageTeamComponent } from './containers/manage-team/manage-team.component';
+import { NotFoundComponent } from './containers/not-found/not-found.component';
+import { TeamComponent } from './containers/team/team.component';
+import { CreateTeamComponent } from './containers/create-team/create-team.component';
+import { HomePageComponent } from './containers/home-page/home-page.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { NotAuthorizedComponent } from './containers/not-authorized/not-authorized.component';
+import { UserTileComponent } from './components/user-tile/user-tile.component';
+import { SelectUserComponent } from './components/select-user/select-user.component';
+import { UserStatsComponent } from './components/user-stats/user-stats.component';
 
 const IMPORTS = [
   BrowserModule,
@@ -44,7 +38,21 @@ const IMPORTS = [
 ];
 
 @NgModule({
-  declarations: [...DECLARATIONS],
+  declarations: [
+    AppComponent,
+    HomePageComponent,
+    CreateTeamComponent,
+    ManageTeamComponent,
+    UserListComponent,
+    NotAuthorizedComponent,
+    NotFoundComponent,
+    AddUserComponent,
+    TeamComponent,
+    AddCoffeeComponent,
+    UserTileComponent,
+    SelectUserComponent,
+    UserStatsComponent,
+  ],
   imports: [
     ...IMPORTS,
     NgbModule.forRoot(),

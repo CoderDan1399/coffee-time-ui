@@ -1,10 +1,12 @@
 import { createSelector } from '@ngrx/store';
 import { getUsersState as getState, getUsersState } from '../reducers';
-import { adapter } from '../reducers/users.reducer';
 import { ApplicationSelectors } from './application.selectors';
+import { UsersReducer } from '../reducers/users.reducer';
 
 export namespace UserSelectors {
-  export const commonSelectors = adapter.getSelectors(getUsersState);
+  export const commonSelectors = UsersReducer.adapter.getSelectors(
+    getUsersState
+  );
   export const getCurrentUser = createSelector(
     ApplicationSelectors.getCurrentUserIdSelector,
     UserSelectors.commonSelectors.selectEntities,
@@ -15,6 +17,15 @@ export namespace UserSelectors {
     commonSelectors.selectAll,
     (teamId, users) => users.filter(user => user.teamId === teamId)
   );
+
+  export const getUsersForTeamSortedByCurrentUser = createSelector(
+    getUsersForTeamSelector,
+    getCurrentUser,
+    (users, currentUser) => {
+      return [currentUser, ...users.filter(u => u.id !== currentUser.id)];
+    }
+  );
+
   export const getHasSavedSelector = createSelector(
     getState,
     state => state.saved

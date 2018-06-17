@@ -1,0 +1,5 @@
+<div>
+<div *ngFor="let user of users">
+  <app-user-tile [user]="user" [selected]="!!selectedUsers[user.id]" (click)="userClickHandler($event)"></app-user-tile>
+</div>
+</div>

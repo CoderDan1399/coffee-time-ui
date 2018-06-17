@@ -1,4 +1,3 @@
-import { User as EntityType } from '../models/user.model';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import {
   combineReducers,
@@ -10,10 +9,10 @@ import {
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
 import { UserActions } from '../actions/user.actions';
+import { Transaction as EntityType } from '../models/transactrion.model';
 
-export namespace UsersReducer {
+export namespace TransactionsReducer {
   const actionTypes = UserActions.ActionTypes;
-
   export interface State extends EntityState<EntityType> {
     saving: boolean;
     saved: boolean;

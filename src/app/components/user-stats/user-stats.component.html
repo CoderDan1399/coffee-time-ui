@@ -1,0 +1,24 @@
+<div>
+  <table>
+    <thead>
+    <tr>
+      <td>
+        User
+      </td>
+      <td>Purchased</td>
+      <td>Received</td>
+      <td>Difference</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        {{user.name}}
+      </td>
+      <td>{{getStats(user.id).purchased}}</td>
+      <td>{{getStats(user.id).consumed}}</td>
+      <td>{{getStats(user.id).purchased - getStats(user.id).consumed}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
