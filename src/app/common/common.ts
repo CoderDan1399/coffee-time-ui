@@ -15,3 +15,7 @@ export const U = {
   always: <any>R.always,
   mapAccum: <any>R.mapAccum,
 };
+
+export function anyNil(...args) {
+  return args.some(a => R.isNil(a));
+}

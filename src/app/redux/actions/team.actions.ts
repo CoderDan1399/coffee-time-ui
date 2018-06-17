@@ -70,6 +70,8 @@ export namespace TeamActions {
     | SaveSuccess
     | SaveFail
     | AddAll
+    | RemoveOne
+    | UpdateOne
     | AddMany
     | UpsertMany
     | UpsertOne;

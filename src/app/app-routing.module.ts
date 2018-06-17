@@ -29,7 +29,7 @@ const routes: Routes = [
     canActivate: [CanActivateMangeTeam],
   },
   {
-    path: 'team/:teamId/:userId',
+    path: 'team/:teamId/:id',
     component: TeamComponent,
     resolve: { team: TeamResolver, user: UserResolver },
     children: [

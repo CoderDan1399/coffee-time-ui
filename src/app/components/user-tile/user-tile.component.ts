@@ -9,11 +9,11 @@ import { User } from '../../redux/models/user.model';
 export class UserTileComponent implements OnInit {
   @Input() public user: User;
   @Input() public selected: boolean;
-  @Output() public click = new EventEmitter<User>();
+  @Output() public selectUser = new EventEmitter<User>();
   constructor() {}
 
   public clickHander() {
-    this.click.emit(this.user);
+    this.selectUser.emit(this.user);
   }
 
   ngOnInit() {}

@@ -12,12 +12,15 @@ import { ApplicationActions } from '../redux/actions/application.actions';
 import { UserService } from '../services/user.service';
 import { UserActions } from '../redux/actions/user.actions';
 import { always } from 'ramda';
+import { TransactionService } from '../services/transaction.service';
+import { UserStatsActions } from '../redux/actions/user-stats.action';
 
 @Injectable()
 export class TeamResolver implements Resolve<Team> {
   constructor(
     private teamService: TeamService,
     private userService: UserService,
+    private transactionService: TransactionService,
     private store: Store<any>,
     private router: Router
   ) {}
@@ -39,6 +42,10 @@ export class TeamResolver implements Resolve<Team> {
       switchMap(team =>
         this.userService.getUsersForTeam(team.id).pipe(
           tap(users => this.store.dispatch(new UserActions.UpsertMany(users))),
+          switchMap(() => this.transactionService.getUserStatsForTeam(team.id)),
+          tap(userStats => {
+            this.store.dispatch(new UserStatsActions.UpsertMany(userStats));
+          }),
           map(always(team))
         )
       )

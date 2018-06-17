@@ -9,6 +9,7 @@ import { UsersReducer } from './users.reducer';
 import { UsersSelectedReducer } from './users-selected.reducer';
 import { TransactionsReducer } from './transactions.reducer';
 import { TransactionItemsReducer } from './transaction-items.reducer';
+import { UserStatsReducer } from './user-stats.reducer';
 
 export interface State {
   router: any;
@@ -19,6 +20,7 @@ export interface State {
   usersSelected: UsersSelectedReducer.State;
   transactions: TransactionsReducer.State;
   transactionItems: TransactionItemsReducer.State;
+  userStats: UserStatsReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -30,6 +32,7 @@ export const reducers: ActionReducerMap<State> = {
   usersSelected: UsersSelectedReducer.reducer,
   transactions: TransactionsReducer.reducer,
   transactionItems: TransactionItemsReducer.reducer,
+  userStats: UserStatsReducer.reducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = environment.production
@@ -67,3 +70,5 @@ export const getTransactionsState = (state: State) => state.transactions;
 
 export const getTransactionItemsState = (state: State) =>
   state.transactionItems;
+
+export const getUserStatsState = (state: State) => state.userStats;

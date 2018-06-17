@@ -1,7 +1,8 @@
 export interface Transaction {
   id: string;
-  teamId;
-  string;
+  teamId: string;
+  addedByUserId: string;
+  addedByUserName: string;
   purchaserName: string;
   purchaserUserId: string;
   datePurchased: Date;

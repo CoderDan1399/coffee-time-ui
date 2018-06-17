@@ -4,7 +4,7 @@
             <h2>
                 Team {{team.name}}, user {{user.name}}
             </h2>
-<app-user-stats [users]="allUsers"></app-user-stats>
+<app-user-stats [users]="allUsers" [userStats]="userStats$ | async"></app-user-stats>
         </div>
       <div>
         <a  [routerLink]="['add-coffee']">Add Coffee</a>

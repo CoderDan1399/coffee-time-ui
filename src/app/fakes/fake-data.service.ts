@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { filter } from 'rxjs/operators';
-import { pipe, not } from 'ramda';
+import { pipe, not, clone } from 'ramda';
 
 @Injectable()
 export class FakeDataService {
@@ -11,11 +11,11 @@ export class FakeDataService {
   }
 
   get(key) {
-    return this.data[key];
+    return clone(this.data[key]);
   }
   addToArray(key, value) {
     this.createArrayIfRequired(key);
-    this.data[key].push(value);
+    this.data[key].push(clone(value));
     this.save();
   }
 
@@ -38,11 +38,11 @@ export class FakeDataService {
   getFromArray<T>(key, selector: (item: T) => boolean): T[] {
     this.createArrayIfRequired(key);
 
-    return this.data[key].filter(selector);
+    return clone(this.data[key].filter(selector));
   }
 
   set(key, value) {
-    this.data[key] = value;
+    this.data[key] = clone(value);
     this.save();
   }
 

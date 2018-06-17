@@ -1,9 +1,8 @@
 <p>
-  add-coffee works!
 </p>
 <h2>Whose buying</h2>
 <div>
-  <select>
+  <select #t (ngModelChange)="buyerSelectedHandler(t.value)" [(ngModel)]="buyerUserId">
     <option *ngFor="let user of (users$ | async)"
             [value]="user.id">{{user.name}}
     </option>

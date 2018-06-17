@@ -21,6 +21,10 @@ export class UserService implements IUserService {
   removeUser(userId: string): Observable<any> {
     return of(null);
   }
+
+  verifyUser(userId: string, secret: string): User {
+    return undefined;
+  }
 }
 
 export interface IUserService {
@@ -30,4 +34,6 @@ export interface IUserService {
   removeUser(userId: string): Observable<any>;
 
   getUsersForTeam(teamId: string): Observable<User[]>;
+
+  verifyUser(userId: string, secret: string): User;
 }

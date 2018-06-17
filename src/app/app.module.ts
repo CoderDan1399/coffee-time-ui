@@ -14,7 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TeamEffects } from './redux/effects/team.effects';
 import { EffectsModule } from '@ngrx/effects';
-import { PROVIDERS } from './index.providers';
 import { UserEffects } from './redux/effects/user.effects';
 import { AddCoffeeComponent } from './containers/add-coffee/add-coffee.component';
 import { AddUserComponent } from './containers/add-user/add-user.component';
@@ -28,14 +27,17 @@ import { NotAuthorizedComponent } from './containers/not-authorized/not-authoriz
 import { UserTileComponent } from './components/user-tile/user-tile.component';
 import { SelectUserComponent } from './components/select-user/select-user.component';
 import { UserStatsComponent } from './components/user-stats/user-stats.component';
-
-const IMPORTS = [
-  BrowserModule,
-  CommonModule,
-  FormsModule,
-  ReactiveFormsModule,
-  EffectsModule.forRoot([TeamEffects, UserEffects]),
-];
+import { UserResolver } from './guards/user.resolver';
+import { TeamResolver } from './guards/team.resolver';
+import { CanActivateMangeTeam } from './guards/can-manage-team';
+import { FakeDataService } from './fakes/fake-data.service';
+import { FakeUserService } from './fakes/fake-user.service';
+import { FakeTeamService } from './fakes/fake-team.service';
+import { TeamService } from './services/team.service';
+import { UserService } from './services/user.service';
+import { FakeTransactionService } from './fakes/fake-transaction.service';
+import { TransactionService } from './services/transaction.service';
+import { TransactionEffects } from './redux/effects/transaction.effects';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,11 @@ const IMPORTS = [
     UserStatsComponent,
   ],
   imports: [
-    ...IMPORTS,
+    BrowserModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    EffectsModule.forRoot([TeamEffects, UserEffects, TransactionEffects]),
     NgbModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
@@ -70,7 +76,15 @@ const IMPORTS = [
     }),
     AppRoutingModule,
   ],
-  providers: [...PROVIDERS],
+  providers: [
+    FakeDataService,
+    CanActivateMangeTeam,
+    TeamResolver,
+    UserResolver,
+    { provide: TeamService, useClass: FakeTeamService },
+    { provide: UserService, useClass: FakeUserService },
+    { provide: TransactionService, useClass: FakeTransactionService },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

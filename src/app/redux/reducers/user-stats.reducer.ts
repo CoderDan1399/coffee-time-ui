@@ -1,14 +1,18 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import {
   combineReducers,
+  getSavingState,
+  getSavedState,
+  getSaveFailState,
   entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
-import { TransactionItem as EntityType } from '../models/transaction.model';
-import { TransactionItemActions } from '../actions/transaction-item.actions';
+import { UserStatsActions } from '../actions/user-stats.action';
+import { UserStats } from '../models/user.model';
 
-export namespace TransactionItemsReducer {
-  const actionTypes = TransactionItemActions.ActionTypes;
+export namespace UserStatsReducer {
+  const actionTypes = UserStatsActions.ActionTypes;
+  type EntityType = UserStats;
 
   export interface State extends EntityState<EntityType> {}
 

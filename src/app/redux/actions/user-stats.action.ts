@@ -1,19 +1,19 @@
-import { Team as EntityType } from '../models/team.model';
 import { ActionWithPayload } from './common';
-import { Transaction } from '../models/transaction.model';
+import { UserStats } from '../models/user.model';
 
-export namespace TransactionActions {
+export namespace UserStatsActions {
+  type EntityType = UserStats;
   export enum ActionTypes {
-    AddOne = '[transaction] add one',
-    AddAll = '[transaction] add all',
-    AddMany = '[transaction] add many',
-    UpdateOne = '[transaction] update one',
-    RemoveOne = '[transaction] remove one',
-    UpsertOne = '[transaction] upsert one',
-    UpsertMany = '[transaction] upsert many',
-    Save = '[transaction] save',
-    SaveSuccess = '[transaction] save success',
-    SaveFail = '[transaction] save fail',
+    AddOne = '[user stats] add one',
+    AddAll = '[user stats] add all',
+    AddMany = '[user stats] add many',
+    UpdateOne = '[user stats] update one',
+    RemoveOne = '[user stats] remove one',
+    UpsertOne = '[user stats] upsert one',
+    UpsertMany = '[user stats] upsert many',
+    Save = '[user stats] save',
+    SaveSuccess = '[user stats] save success',
+    SaveFail = '[user stats] save fail',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -52,9 +52,7 @@ export namespace TransactionActions {
 
   export class Save implements ActionWithPayload {
     readonly type: string = ActionTypes.Save;
-    constructor(
-      public payload: { transaction: Transaction; userSecret: string }
-    ) {}
+    constructor(public payload: EntityType) {}
   }
 
   export class SaveSuccess implements ActionWithPayload {
@@ -72,6 +70,8 @@ export namespace TransactionActions {
     | Save
     | SaveSuccess
     | SaveFail
+    | RemoveOne
+    | UpdateOne
     | AddAll
     | AddMany
     | UpsertMany
