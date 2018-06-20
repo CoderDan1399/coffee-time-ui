@@ -10,8 +10,6 @@ import { AppRoutingModule } from './/app-routing.module';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { metaReducers, reducers } from './redux/reducers';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { TeamEffects } from './redux/effects/team.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './redux/effects/user.effects';
@@ -38,6 +36,7 @@ import { UserService } from './services/user.service';
 import { FakeTransactionService } from './fakes/fake-transaction.service';
 import { TransactionService } from './services/transaction.service';
 import { TransactionEffects } from './redux/effects/transaction.effects';
+import { CommonAppModule } from './common-app.module';
 
 @NgModule({
   declarations: [
@@ -57,9 +56,7 @@ import { TransactionEffects } from './redux/effects/transaction.effects';
   ],
   imports: [
     BrowserModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CommonAppModule,
     EffectsModule.forRoot([TeamEffects, UserEffects, TransactionEffects]),
     NgbModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
