@@ -22,7 +22,7 @@ export class UserService implements IUserService {
     return of(null);
   }
 
-  verifyUser(userId: string, secret: string): User {
+  verifyUser(userId: string, secret: string): Observable<User> {
     return undefined;
   }
 }
@@ -35,5 +35,5 @@ export interface IUserService {
 
   getUsersForTeam(teamId: string): Observable<User[]>;
 
-  verifyUser(userId: string, secret: string): User;
+  verifyUser(userId: string, secret: string): Observable<User>;
 }

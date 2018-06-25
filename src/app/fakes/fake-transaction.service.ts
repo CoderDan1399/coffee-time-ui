@@ -7,12 +7,13 @@ import {
 import { UserStats } from '../redux/models/user.model';
 import { Observable, of } from 'rxjs';
 import { U } from '../common/common';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, delay } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { ITransactionService } from '../services/transaction.service';
 
 const TRAN_KEY = 'TRANSACTIONS';
 const USER_STATS_KEY = 'USER_STATS';
+const DELAY = 500;
 
 @Injectable()
 export class FakeTransactionService implements ITransactionService {
@@ -23,6 +24,7 @@ export class FakeTransactionService implements ITransactionService {
 
   add(transaction: Transaction, userSecret: string): Observable<null> {
     return of(null).pipe(
+      delay(DELAY),
       switchMap(() => this.userService.getUser(transaction.purchaserUserId)),
       tap(user => {
         // Not worrying aobut security now or ever.
@@ -90,6 +92,7 @@ export class FakeTransactionService implements ITransactionService {
 
   getUserStatsForTeam(teamId: string): Observable<UserStats[]> {
     return of(null).pipe(
+      delay(DELAY),
       switchMap(() => {
         return of(
           this.data.getFromArray<UserStats>(

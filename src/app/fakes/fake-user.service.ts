@@ -1,26 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FakeDataService } from './fake-data.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, delay } from 'rxjs/operators';
 import { IUserService } from '../services/user.service';
 import { User } from '../redux/models/user.model';
 
 const USERS_KEY = 'USERS';
+const DELAY = 500;
 @Injectable()
 export class FakeUserService implements IUserService {
   getUser(userId: string): Observable<User> {
-    const user = this.data.getFromArray<User>(
-      USERS_KEY,
-      item => item.id === userId
-    )[0];
-    return of(user);
+    return of(null).pipe(
+      delay(DELAY),
+      switchMap(() => {
+        const user = this.data.getFromArray<User>(
+          USERS_KEY,
+          item => item.id === userId
+        )[0];
+        return of(user);
+      })
+    );
   }
 
-  verifyUser(userId: string, secret: string): User {
-    return this.data.getFromArray<User>(
-      USERS_KEY,
-      user => user.id === userId && user.secret === secret
-    )[0];
+  verifyUser(userId: string, secret: string): Observable<User> {
+    return of(null).pipe(
+      switchMap(() => {
+        return of(
+          this.data.getFromArray<User>(
+            USERS_KEY,
+            user => user.id === userId && user.secret === secret
+          )[0]
+        );
+      })
+    );
   }
 
   constructor(private data: FakeDataService) {}
