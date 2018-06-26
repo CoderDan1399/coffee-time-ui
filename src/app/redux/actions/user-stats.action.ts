@@ -1,5 +1,6 @@
 import { ActionWithPayload } from './common';
 import { UserModels } from '../models/user.model';
+import { TransactionModels } from '../models/transaction.model';
 
 export namespace UserStatsActions {
   type EntityType = UserModels.UserStats;
@@ -11,9 +12,7 @@ export namespace UserStatsActions {
     RemoveOne = '[user stats] remove one',
     UpsertOne = '[user stats] upsert one',
     UpsertMany = '[user stats] upsert many',
-    Save = '[user stats] save',
-    SaveSuccess = '[user stats] save success',
-    SaveFail = '[user stats] save fail',
+    AddTransaction = '[user stats] add transaction',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -50,26 +49,13 @@ export namespace UserStatsActions {
     constructor(public payload: string) {}
   }
 
-  export class Save implements ActionWithPayload {
-    readonly type: string = ActionTypes.Save;
-    constructor(public payload: EntityType) {}
-  }
-
-  export class SaveSuccess implements ActionWithPayload {
-    readonly type: string = ActionTypes.SaveSuccess;
-    constructor() {}
-  }
-
-  export class SaveFail implements ActionWithPayload {
-    readonly type: string = ActionTypes.SaveFail;
-    constructor(public payload: any) {}
+  export class AddTransaction implements ActionWithPayload {
+    readonly type: string = ActionTypes.RemoveOne;
+    constructor(public payload: TransactionModels.Transaction) {}
   }
 
   export type ActionsUnion =
     | AddOne
-    | Save
-    | SaveSuccess
-    | SaveFail
     | RemoveOne
     | UpdateOne
     | AddAll

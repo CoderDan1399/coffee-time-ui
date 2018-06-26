@@ -4,9 +4,11 @@ import {
   entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';
-import { Transaction as EntityType } from '../models/transaction.model';
-import { TransactionActions } from '../actions/transaction.actions';
 
+import { TransactionActions } from '../actions/transaction.actions';
+import { TransactionModels } from '../models/transaction.model';
+
+type EntityType = TransactionModels.Transaction;
 export namespace TransactionsReducer {
   const actionTypes = TransactionActions.ActionTypes;
   export interface State extends EntityState<EntityType> {}

@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 import { TransactionActions } from '../actions/transaction.actions';
-import { Transaction } from '../models/transaction.model';
 import { SavingStatusActions } from '../actions/saving-status.actions';
 import { SavingStatusModels } from '../models/saving-status.models';
+import { TransactionModels } from '../models/transaction.model';
 
 export namespace ActionDispatchers {
   export function createSaveTransactionActions(
-    transaction: Transaction,
+    transaction: TransactionModels.Transaction,
     userId: string,
     userSecret: string
   ): Action[] {

@@ -1,7 +1,7 @@
 import { Team } from '../redux/models/team.model';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Transaction } from '../redux/models/transaction.model';
+import { TransactionModels } from '../redux/models/transaction.model';
 
 @Injectable()
 export class TeamService implements ITeamService {
@@ -19,7 +19,10 @@ export class TeamService implements ITeamService {
     return of(null);
   }
 
-  addCoffee(transaction: Transaction, userSecret: string): Observable<null> {
+  addCoffee(
+    transaction: TransactionModels.Transaction,
+    userSecret: string
+  ): Observable<null> {
     return undefined;
   }
 }

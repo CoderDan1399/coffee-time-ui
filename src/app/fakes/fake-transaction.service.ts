@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FakeDataService } from './fake-data.service';
-import {
-  Transaction,
-  TransactionItem,
-} from '../redux/models/transaction.model';
 import { Observable, of } from 'rxjs';
 import { U } from '../common/common';
 import { map, switchMap, tap, delay } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { ITransactionService } from '../services/transaction.service';
 import { UserModels } from '../redux/models/user.model';
+import { TransactionModels } from '../redux/models/transaction.model';
 
 const TRAN_KEY = 'TRANSACTIONS';
 const USER_STATS_KEY = 'USER_STATS';
@@ -22,7 +19,10 @@ export class FakeTransactionService implements ITransactionService {
     private userService: UserService
   ) {}
 
-  add(transaction: Transaction, userSecret: string): Observable<null> {
+  add(
+    transaction: TransactionModels.Transaction,
+    userSecret: string
+  ): Observable<null> {
     return of(null).pipe(
       delay(DELAY),
       switchMap(() =>

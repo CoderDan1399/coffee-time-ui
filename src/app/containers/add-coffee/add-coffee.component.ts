@@ -10,14 +10,12 @@ import { UsersSelectedSelectors } from '../../redux/selectors/users-selected.sel
 import { filter, first, takeUntil, tap } from 'rxjs/operators';
 import { TransactionActions } from '../../redux/actions/transaction.actions';
 import { TeamSelectors } from '../../redux/selectors/team.selectors';
-import {
-  Transaction,
-  TransactionItem,
-} from '../../redux/models/transaction.model';
+
 import { newId } from '../../common/new-id';
 import { isNil } from 'ramda';
 import { anyNil } from '../../common/common';
 import { ActionDispatchers } from '../../redux/dispatchers/action.dispatchers';
+import { TransactionModels } from '../../redux/models/transaction.model';
 
 @Component({
   selector: 'app-add-coffee',
@@ -81,7 +79,7 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
           transaction,
           credentials,
         }: {
-          transaction: Transaction;
+          transaction: TransactionModels.Transaction;
           credentials: UserModels.UserCredentials;
         }) => {
           console.log(transaction);
@@ -103,7 +101,7 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
 export function getTransactionSelectorFactory(
   transactionId: string,
   purchaserUserId: string
-): MemoizedSelector<any, Transaction> {
+): MemoizedSelector<any, TransactionModels.Transaction> {
   return createSelector(
     UsersSelectedSelectors.getUsersSelectedCommonSelectors.selectEntities,
     TeamSelectors.getCurrentTeamSelector,
@@ -115,7 +113,7 @@ export function getTransactionSelectorFactory(
       }
       const purchaser = users.find(user => user.id === purchaserUserId);
 
-      const transactionHeader: Transaction = {
+      const transactionHeader: TransactionModels.Transaction = {
         teamId: currentTeam.id,
         addedByUserId: currentUser.id,
         addedByUserName: currentUser.name,
@@ -126,10 +124,10 @@ export function getTransactionSelectorFactory(
         purchaserUserId: purchaser.id,
       };
 
-      const transactionItems = <TransactionItem[]>(
+      const transactionItems = <TransactionModels.TransactionItem[]>(
         users.filter(user => selectedUsers[user.id]).map(
           user =>
-            <TransactionItem>{
+            <TransactionModels.TransactionItem>{
               userId: user.id,
               qty: 1,
               id: newId(),

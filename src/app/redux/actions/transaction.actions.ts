@@ -1,6 +1,6 @@
 import { Team as EntityType } from '../models/team.model';
 import { ActionWithPayload } from './common';
-import { Transaction } from '../models/transaction.model';
+import { TransactionModels } from '../models/transaction.model';
 
 export namespace TransactionActions {
   export enum ActionTypes {
@@ -53,7 +53,11 @@ export namespace TransactionActions {
   export class Save implements ActionWithPayload {
     readonly type: string = ActionTypes.Save;
     constructor(
-      public payload: { transaction: Transaction; userId: string, userSecret: string }
+      public payload: {
+        transaction: TransactionModels.Transaction;
+        userId: string;
+        userSecret: string;
+      }
     ) {}
   }
 
