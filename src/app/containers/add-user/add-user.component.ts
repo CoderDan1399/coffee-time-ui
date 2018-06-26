@@ -15,6 +15,9 @@ import {
 import { Observable, Subscription, Subject } from 'rxjs';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { Router } from '@angular/router';
+import { SavingStatusModels } from '../../redux/models/saving-status.models';
+import { SavingStatusSelectors } from '../../redux/selectors/saving-status.selectors';
+import { SavingStatusActions } from '../../redux/actions/saving-status.actions';
 
 @Component({
   selector: 'app-add-user',
@@ -51,6 +54,12 @@ export class AddUserComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(params => {
+        const key = SavingStatusModels.createKey(
+          SavingStatusModels.SAVING_USER_KEY,
+          this.id
+        );
+        this.store.dispatch(new SavingStatusActions.Save(key));
+
         this.store.dispatch(
           new UserActions.Save({
             id: this.id,
@@ -61,11 +70,17 @@ export class AddUserComponent implements OnInit, OnDestroy {
           })
         );
 
+        const selector = SavingStatusSelectors.getSavingStatusSelectorFactory(
+          key
+        );
+
         this.savingSubscription = this.store
-          .select(UserSelectors.getHasSavedSelector)
+          .select(selector)
           .pipe(
+            tap(console.log),
             takeUntil(this.destroy$),
             filter(Boolean),
+            filter(val => val.hasSaved),
             take(1),
             tap(() =>
               this.router.navigate(['../../'], { relativeTo: this.route })

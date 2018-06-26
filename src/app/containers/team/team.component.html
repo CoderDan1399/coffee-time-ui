@@ -1,16 +1,18 @@
 <ng-container *ngIf="(allUsers$ | async) as allUsers">
-    <ng-container *ngIf="(user$ | async) as user">
-        <div *ngIf="(team$ | async) as team">
-            <h2>
-                Team {{team.name}}, user {{user.name}}
-            </h2>
-<app-user-stats [users]="allUsers" [userStats]="userStats$ | async"></app-user-stats>
-        </div>
-      <div>
-        <a  [routerLink]="['add-coffee']">Add Coffee</a>
-      </div>
-      <div>
-        <router-outlet></router-outlet>
-      </div>
-    </ng-container>
+  <ng-container *ngIf="(user$ | async) as user">
+    <div *ngIf="(team$ | async) as team">
+      <h2>
+        Team {{team.name}}, user {{user.name}}
+      </h2>
+      <app-user-stats [users]="allUsers"
+                      [userStats]="userStats$ | async"></app-user-stats>
+    </div>
+    <div>
+      <a [routerLink]="['add-coffee']"
+         queryParamsHandling="merge">Add Coffee</a>
+    </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
 </ng-container>

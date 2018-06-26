@@ -1,4 +1,3 @@
-import { User } from '../models/user.model';
 import { ActionWithPayload } from '../actions/common';
 import { ApplicationModels } from '../models/application.model';
 import { ApplicationActions } from '../actions/application.actions';

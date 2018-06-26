@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../redux/models/user.model';
+
 import { Id } from '../../redux/models/id.model';
 import { Dictionary } from '../../redux/models/dictionary.model';
+import { UserModels } from '../../redux/models/user.model';
 
 @Component({
   selector: 'app-select-user',
@@ -9,9 +10,9 @@ import { Dictionary } from '../../redux/models/dictionary.model';
   styleUrls: ['./select-user.component.scss'],
 })
 export class SelectUserComponent implements OnInit {
-  @Input() users: User[];
+  @Input() users: UserModels.User[];
   @Input() selectedUsers: Dictionary<Id>;
-  @Output() userSelected = new EventEmitter<User>();
+  @Output() userSelected = new EventEmitter<UserModels.User>();
   constructor() {}
 
   ngOnInit() {}

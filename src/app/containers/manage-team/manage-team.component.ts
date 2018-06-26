@@ -6,12 +6,12 @@ import { getCurrentUrl } from '../../common/window-utils';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first, tap, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { User } from '../../redux/models/user.model';
 import { RouterSelectors } from '../../redux/selectors/router.selectors';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { Team } from '../../redux/models/team.model';
 import { TeamSelectors } from '../../redux/selectors/team.selectors';
 import { curry } from 'ramda';
+import { UserModels } from '../../redux/models/user.model';
 
 @Component({
   selector: 'manage-team',
@@ -20,7 +20,7 @@ import { curry } from 'ramda';
 export class ManageTeamComponent implements OnInit {
   public team$: Observable<Team>;
   public teamName: string;
-  public users$: Observable<User[]>;
+  public users$: Observable<UserModels.User[]>;
   get currentUrl() {
     return getCurrentUrl();
   }

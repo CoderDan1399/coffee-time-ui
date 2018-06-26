@@ -2,7 +2,6 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { Id as EntityType } from '../models/id.model';
 import {
   combineReducers,
-  getInitialSavingState,
   entityAdapterReducerFactory,
 } from '../../common/redux/entity-adapter';
 import { ActionWithPayload } from '../actions/common';

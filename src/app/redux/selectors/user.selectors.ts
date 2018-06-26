@@ -1,7 +1,14 @@
 import { createSelector } from '@ngrx/store';
-import { getUsersState as getState, getUsersState } from '../reducers';
+import {
+  getUsersState as getState,
+  getUsersState,
+  getRouterState,
+} from '../reducers';
 import { ApplicationSelectors } from './application.selectors';
 import { UsersReducer } from '../reducers/users.reducer';
+import { RouterSelectors } from './router.selectors';
+import { isNil } from 'ramda';
+import { UserModels } from '../models/user.model';
 
 export namespace UserSelectors {
   export const commonSelectors = UsersReducer.adapter.getSelectors(
@@ -26,16 +33,17 @@ export namespace UserSelectors {
     }
   );
 
-  export const getHasSavedSelector = createSelector(
-    getState,
-    state => state.saved
-  );
-  export const getIsSavingSelector = createSelector(
-    getState,
-    state => state.saving
-  );
-  export const getSaveFailedSelector = createSelector(
-    getState,
-    state => state.saveFail
+  export const getUserCredentialsSelector = createSelector(
+    RouterSelectors.getFirstChildSelector,
+    childRoute => {
+      if (isNil(childRoute)) {
+        return;
+      }
+      return <UserModels.UserCredentials>{
+        userId: childRoute.params.userId,
+        teamId: childRoute.params.teamId,
+        userSecret: childRoute.queryParams.userSecret,
+      };
+    }
   );
 }

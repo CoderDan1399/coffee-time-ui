@@ -1,8 +1,8 @@
 import { ActionWithPayload } from './common';
-import { UserStats } from '../models/user.model';
+import { UserModels } from '../models/user.model';
 
 export namespace UserStatsActions {
-  type EntityType = UserStats;
+  type EntityType = UserModels.UserStats;
   export enum ActionTypes {
     AddOne = '[user stats] add one',
     AddAll = '[user stats] add all',

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User, UserStats } from '../../redux/models/user.model';
 import { Dictionary } from '../../redux/models/dictionary.model';
+import { UserModels } from '../../redux/models/user.model';
 
 @Component({
   selector: 'app-user-stats',
@@ -8,8 +8,8 @@ import { Dictionary } from '../../redux/models/dictionary.model';
   styleUrls: ['./user-stats.component.scss'],
 })
 export class UserStatsComponent implements OnInit {
-  @Input() users: User[];
-  @Input() userStats: Dictionary<UserStats> = {};
+  @Input() users: UserModels.User[];
+  @Input() userStats: Dictionary<UserModels.UserStats> = {};
   constructor() {}
   ngOnInit() {}
 

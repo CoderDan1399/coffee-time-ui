@@ -50,28 +50,3 @@ export function combineReducers(...reducers) {
     return reducers.reduce((prev, curr) => curr(prev, action), state);
   };
 }
-
-export interface SaveStatus {
-  saving: boolean;
-  saved: boolean;
-  saveFail: any;
-}
-export interface LoadStatus {
-  loading: boolean;
-  loaded: boolean;
-  loadFail: any;
-}
-
-export function getInitialSavingState(): SaveStatus {
-  return { saving: false, saved: false, saveFail: null };
-}
-export function getSavingState(): SaveStatus {
-  return { saving: true, saved: false, saveFail: null };
-}
-export function getSavedState(): SaveStatus {
-  return { saving: false, saved: true, saveFail: null };
-}
-
-export function getSaveFailState(err): SaveStatus {
-  return { saving: false, saved: false, saveFail: err };
-}

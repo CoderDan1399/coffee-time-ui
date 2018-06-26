@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../redux/models/user.model';
+import { UserModels } from '../../redux/models/user.model';
 
 @Component({
   selector: 'app-user-tile',
@@ -7,9 +7,9 @@ import { User } from '../../redux/models/user.model';
   styleUrls: ['./user-tile.component.scss'],
 })
 export class UserTileComponent implements OnInit {
-  @Input() public user: User;
+  @Input() public user: UserModels.User;
   @Input() public selected: boolean;
-  @Output() public selectUser = new EventEmitter<User>();
+  @Output() public selectUser = new EventEmitter<UserModels.User>();
   constructor() {}
 
   public clickHander() {

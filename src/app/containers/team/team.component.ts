@@ -4,9 +4,9 @@ import { Team } from '../../redux/models/team.model';
 import { Store } from '@ngrx/store';
 import { TeamSelectors } from '../../redux/selectors/team.selectors';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
-import { User, UserStats } from '../../redux/models/user.model';
 import { Dictionary } from '../../redux/models/dictionary.model';
 import { UserStatsSelectors } from '../../redux/selectors/user-stats.selectors';
+import { UserModels } from '../../redux/models/user.model';
 
 @Component({
   selector: 'app-team',
@@ -14,9 +14,9 @@ import { UserStatsSelectors } from '../../redux/selectors/user-stats.selectors';
 })
 export class TeamComponent implements OnInit {
   public team$: Observable<Team>;
-  public user$: Observable<User>;
-  public userStats$: Observable<Dictionary<UserStats>>;
-  public allUsers$: Observable<User[]>;
+  public user$: Observable<UserModels.User>;
+  public userStats$: Observable<Dictionary<UserModels.UserStats>>;
+  public allUsers$: Observable<UserModels.User[]>;
   constructor(private store: Store<any>) {}
 
   ngOnInit() {

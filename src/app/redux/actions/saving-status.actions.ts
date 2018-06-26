@@ -1,19 +1,20 @@
-import { Team as EntityType } from '../models/team.model';
 import { ActionWithPayload } from './common';
-import { Transaction } from '../models/transaction.model';
+import { SavingStatusModels } from '../models/saving-status.models';
 
-export namespace TransactionActions {
+export namespace SavingStatusActions {
+  type EntityType = SavingStatusModels.SavingStatus;
+
   export enum ActionTypes {
-    AddOne = '[transaction] add one',
-    AddAll = '[transaction] add all',
-    AddMany = '[transaction] add many',
-    UpdateOne = '[transaction] update one',
-    RemoveOne = '[transaction] remove one',
-    UpsertOne = '[transaction] upsert one',
-    UpsertMany = '[transaction] upsert many',
-    Save = '[transaction] save',
-    SaveSuccess = '[transaction] save success',
-    SaveFail = '[transaction] save fail',
+    AddOne = '[saving status] add one',
+    AddAll = '[saving status] add all',
+    AddMany = '[saving status] add many',
+    UpdateOne = '[saving status] update one',
+    RemoveOne = '[saving status] remove one',
+    UpsertOne = '[saving status] upsert one',
+    UpsertMany = '[saving status] upsert many',
+    Save = '[saving status] save',
+    SaveSuccess = '[saving status] save success',
+    SaveFail = '[saving status] save fail',
   }
   export class AddOne implements ActionWithPayload {
     readonly type: string = ActionTypes.AddOne;
@@ -52,19 +53,19 @@ export namespace TransactionActions {
 
   export class Save implements ActionWithPayload {
     readonly type: string = ActionTypes.Save;
-    constructor(
-      public payload: { transaction: Transaction; userId: string, userSecret: string }
-    ) {}
+    constructor(public payload: string) {}
   }
 
   export class SaveSuccess implements ActionWithPayload {
     readonly type: string = ActionTypes.SaveSuccess;
-    constructor() {}
+    constructor(public payload: string) {}
   }
 
   export class SaveFail implements ActionWithPayload {
     readonly type: string = ActionTypes.SaveFail;
-    constructor(public payload: any) {}
+    constructor(
+      public payload: { id: string; error: string; errorObject: any }
+    ) {}
   }
 
   export type ActionsUnion =
@@ -73,6 +74,8 @@ export namespace TransactionActions {
     | SaveSuccess
     | SaveFail
     | AddAll
+    | RemoveOne
+    | UpdateOne
     | AddMany
     | UpsertMany
     | UpsertOne;

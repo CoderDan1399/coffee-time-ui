@@ -8,17 +8,4 @@ export namespace TeamSelectors {
     getTeamsCommonSelectors.selectEntities,
     (teamId, teams) => (teamId && teams ? teams[teamId] : undefined)
   );
-
-  export const getHasSavedSelector = createSelector(
-    getTeamsState,
-    state => state.saved
-  );
-  export const getIsSavingSelector = createSelector(
-    getTeamsState,
-    state => state.saving
-  );
-  export const getSaveFailedSelector = createSelector(
-    getTeamsState,
-    state => state.saveFail
-  );
 }

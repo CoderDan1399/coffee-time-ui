@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { createSelector, Store } from '@ngrx/store';
+import { createSelector, Store, MemoizedSelector } from '@ngrx/store';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
-import { User } from '../../redux/models/user.model';
+import { UserModels } from '../../redux/models/user.model';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { UsersSelectedActions } from '../../redux/actions/users-selected.actions';
 import { Dictionary } from '@ngrx/entity/src/models';
@@ -17,6 +17,7 @@ import {
 import { newId } from '../../common/new-id';
 import { isNil } from 'ramda';
 import { anyNil } from '../../common/common';
+import { ActionDispatchers } from '../../redux/dispatchers/action.dispatchers';
 
 @Component({
   selector: 'app-add-coffee',
@@ -24,7 +25,7 @@ import { anyNil } from '../../common/common';
   styleUrls: ['./add-coffee.component.scss'],
 })
 export class AddCoffeeComponent implements OnInit, OnDestroy {
-  public users$: Observable<User[]>;
+  public users$: Observable<UserModels.User[]>;
   public buyerUserId: string;
   public selectedUsers$: Observable<Dictionary<Id>> = of({});
   private destroy$ = new Subject();
@@ -54,23 +55,47 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(null);
   }
-  public userClickHandler(user: User) {
+  public userClickHandler(user: UserModels.User) {
     this.store.dispatch(new UsersSelectedActions.SelectUser(user.id));
   }
 
   public saveHandler() {
+    const selector = createSelector(
+      getTransactionSelectorFactory(newId(), this.buyerUserId),
+      UserSelectors.getUserCredentialsSelector,
+      (transaction, credentials) => {
+        return transaction && credentials
+          ? { transaction, credentials }
+          : undefined;
+      }
+    );
     this.store
-      .select(getTransactionSelectorFactory(newId(), this.buyerUserId))
+      .select(selector)
       .pipe(
         filter(Boolean),
         first(),
         takeUntil(this.destroy$)
       )
-      .subscribe(header => {
-        this.store.dispatch(
-          new TransactionActions.Save({ transaction: header, userSecret: '' })
-        );
-      });
+      .subscribe(
+        ({
+          transaction,
+          credentials,
+        }: {
+          transaction: Transaction;
+          credentials: UserModels.UserCredentials;
+        }) => {
+          console.log(transaction);
+          console.log(credentials);
+          const actions = ActionDispatchers.createSaveTransactionActions(
+            transaction,
+            credentials.userId,
+            credentials.userSecret
+          );
+
+          console.log(actions);
+          actions.forEach(action => this.store.dispatch(action));
+        }
+      );
   }
   public buyerSelectedHandler(user) {}
 }
@@ -78,7 +103,7 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
 export function getTransactionSelectorFactory(
   transactionId: string,
   purchaserUserId: string
-) {
+): MemoizedSelector<any, Transaction> {
   return createSelector(
     UsersSelectedSelectors.getUsersSelectedCommonSelectors.selectEntities,
     TeamSelectors.getCurrentTeamSelector,

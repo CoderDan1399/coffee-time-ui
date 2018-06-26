@@ -1,6 +1,7 @@
-import { User as EntityType } from '../models/user.model';
 import { ActionWithPayload } from './common';
+import { UserModels } from '../models/user.model';
 
+type EntityType = UserModels.User;
 export namespace UserActions {
   export enum ActionTypes {
     AddOne = '[user] add one',

@@ -4,6 +4,10 @@ import { TransactionActions } from '../actions/transaction.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TransactionService } from '../../services/transaction.service';
 import { of } from 'rxjs';
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { SavingStatusActions } from '../actions/saving-status.actions';
+import { SavingStatusModels } from '../models/saving-status.models';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class TransactionEffects {
@@ -17,7 +21,17 @@ export class TransactionEffects {
       return this.transactionService
         .add(action.payload.transaction, action.payload.userSecret)
         .pipe(
-          map(() => new TransactionActions.SaveSuccess()),
+          mergeMap(() =>
+            of<Action>(
+              new TransactionActions.SaveSuccess(),
+              new SavingStatusActions.SaveSuccess(
+                SavingStatusModels.createKey(
+                  SavingStatusModels.SAVING_TRANSACTION_KEY,
+                  action.payload.transaction.id
+                )
+              )
+            )
+          ),
           catchError(err => {
             console.error(err);
             return of(

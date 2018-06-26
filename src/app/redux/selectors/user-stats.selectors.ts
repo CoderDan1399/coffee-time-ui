@@ -3,8 +3,8 @@ import { TeamSelectors } from './team.selectors';
 import { UserSelectors } from './user.selectors';
 import { UserStatsReducer } from '../reducers/user-stats.reducer';
 import { getUserStatsState } from '../reducers';
-import { UserStats } from '../models/user.model';
 import { Dictionary } from '../models/dictionary.model';
+import { UserModels } from '../models/user.model';
 
 export namespace UserStatsSelectors {
   export const getCommonSelectors = UserStatsReducer.adapter.getSelectors(
@@ -16,7 +16,7 @@ export namespace UserStatsSelectors {
     UserSelectors.getUsersForTeamSelector,
     getCommonSelectors.selectEntities,
     (team, users, userStats) => {
-      const result: Dictionary<UserStats> = {};
+      const result: Dictionary<UserModels.UserStats> = {};
       users.forEach(user => {
         if (userStats[user.id]) {
           result[user.id] = userStats[user.id];
