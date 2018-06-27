@@ -37,51 +37,59 @@ import { FakeTransactionService } from './fakes/fake-transaction.service';
 import { TransactionService } from './services/transaction.service';
 import { TransactionEffects } from './redux/effects/transaction.effects';
 import { CommonAppModule } from './common-app.module';
+import { RouterModule } from '@angular/router';
+
+export const APP_DECLARATIONS = [
+  AppComponent,
+  HomePageComponent,
+  CreateTeamComponent,
+  ManageTeamComponent,
+  UserListComponent,
+  NotAuthorizedComponent,
+  NotFoundComponent,
+  AddUserComponent,
+  TeamComponent,
+  AddCoffeeComponent,
+  UserTileComponent,
+  SelectUserComponent,
+  UserStatsComponent,
+];
+
+export const APP_IMPORTS = [
+  BrowserModule,
+  CommonAppModule,
+  EffectsModule.forRoot([TeamEffects, UserEffects, TransactionEffects]),
+  NgbModule.forRoot(),
+  StoreModule.forRoot(reducers, { metaReducers }),
+  !environment.production ? StoreDevtoolsModule.instrument() : [],
+  /**
+   * @ngrx/router-store keeps router state up-to-date in the store.
+   */
+  StoreRouterConnectingModule.forRoot({
+    /*
+      They stateKey defines the name of the state used by the router-store reducer.
+      This matches the key defined in the map of reducers
+    */
+    stateKey: 'router',
+  }),
+];
+
+export const APP_BOOTSTRAP = [AppComponent];
+
+export const APP_PROVIDERS = [
+  FakeDataService,
+  CanActivateMangeTeam,
+  TeamResolver,
+  UserResolver,
+  { provide: TeamService, useClass: FakeTeamService },
+  { provide: UserService, useClass: FakeUserService },
+  { provide: TransactionService, useClass: FakeTransactionService },
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    CreateTeamComponent,
-    ManageTeamComponent,
-    UserListComponent,
-    NotAuthorizedComponent,
-    NotFoundComponent,
-    AddUserComponent,
-    TeamComponent,
-    AddCoffeeComponent,
-    UserTileComponent,
-    SelectUserComponent,
-    UserStatsComponent,
-  ],
-  imports: [
-    BrowserModule,
-    CommonAppModule,
-    EffectsModule.forRoot([TeamEffects, UserEffects, TransactionEffects]),
-    NgbModule.forRoot(),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    /**
-     * @ngrx/router-store keeps router state up-to-date in the store.
-     */
-    StoreRouterConnectingModule.forRoot({
-      /*
-        They stateKey defines the name of the state used by the router-store reducer.
-        This matches the key defined in the map of reducers
-      */
-      stateKey: 'router',
-    }),
-    AppRoutingModule,
-  ],
-  providers: [
-    FakeDataService,
-    CanActivateMangeTeam,
-    TeamResolver,
-    UserResolver,
-    { provide: TeamService, useClass: FakeTeamService },
-    { provide: UserService, useClass: FakeUserService },
-    { provide: TransactionService, useClass: FakeTransactionService },
-  ],
-  bootstrap: [AppComponent],
+  declarations: APP_DECLARATIONS,
+  imports: [AppRoutingModule, ...APP_IMPORTS],
+  providers: APP_PROVIDERS,
+  bootstrap: APP_BOOTSTRAP,
 })
 export class AppModule {}

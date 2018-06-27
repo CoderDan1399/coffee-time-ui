@@ -1,9 +1,13 @@
-<main role="main" class="inner cover">
+<main role="main"
+      class="inner cover"
+      data-test-id="home-page">
   <h1 class="cover-heading">Coffee Time</h1>
   <p class="lead">Coffee time is an example angular 2+ web application created for fun. Use it to track and manage whose turn it is to pick
     up the coffee round.
   </p>
   <p class="lead">
-    <a [routerLink]="['/create-team']" class="btn btn-lg btn-secondary">Create Coffee Team</a>
+    <a [routerLink]="['/create-team']"
+       data-test-id="create-team-button"
+       class="btn btn-lg btn-secondary">Create Coffee Team</a>
   </p>
 </main>

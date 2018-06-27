@@ -13,7 +13,7 @@ import { UserResolver } from './guards/user.resolver';
 import { TeamComponent } from './containers/team/team.component';
 import { AddCoffeeComponent } from './containers/add-coffee/add-coffee.component';
 
-const routes: Routes = [
+export const ROUTES: Routes = [
   { path: 'create-team', component: CreateTeamComponent },
   {
     path: 'team/:teamId/manage/:secret',
@@ -45,7 +45,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(ROUTES)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
