@@ -50,7 +50,7 @@ export namespace UserStatsActions {
   }
 
   export class AddTransaction implements ActionWithPayload {
-    readonly type: string = ActionTypes.RemoveOne;
+    readonly type: string = ActionTypes.AddTransaction;
     constructor(public payload: TransactionModels.Transaction) {}
   }
 
@@ -61,5 +61,6 @@ export namespace UserStatsActions {
     | AddAll
     | AddMany
     | UpsertMany
-    | UpsertOne;
+    | UpsertOne
+    | AddTransaction;
 }

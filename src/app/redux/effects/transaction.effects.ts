@@ -8,6 +8,7 @@ import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { SavingStatusActions } from '../actions/saving-status.actions';
 import { SavingStatusModels } from '../models/saving-status.models';
 import { Action } from '@ngrx/store';
+import { UserStatsActions } from '../actions/user-stats.action';
 
 @Injectable()
 export class TransactionEffects {
@@ -29,7 +30,8 @@ export class TransactionEffects {
                   SavingStatusModels.SAVING_TRANSACTION_KEY,
                   action.payload.transaction.id
                 )
-              )
+              ),
+              new UserStatsActions.AddTransaction(action.payload.transaction)
             )
           ),
           catchError(err => {
