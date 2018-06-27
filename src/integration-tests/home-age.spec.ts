@@ -19,7 +19,7 @@ import { By } from '@angular/platform-browser';
 import { ROUTES } from '../app/app-routing.module';
 
 import { detectChanges } from '@angular/core/src/render3';
-import { TestDeHelpers } from '../app/common/test/dom-helpers';
+import { TestDeHelpers } from '../app/common/test/dom-helpers.spec';
 describe('create team tests', function() {
   let fixture: ComponentFixture<AppComponent>;
   let router: Router;
