@@ -1,0 +1,9 @@
+<div>
+  <h2>buyer</h2>
+  {{buyer.name}}
+  <h2> receivers</h2>
+  <ul>
+    <li *ngFor="let u of receivers">{{u.name}} {{userStats[u.id].purchased}} {{userStats[u.id].consumed}}</li>
+  </ul>
+
+</div>

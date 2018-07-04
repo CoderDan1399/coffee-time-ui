@@ -7,7 +7,7 @@ import {
 import { ApplicationSelectors } from './application.selectors';
 import { UsersReducer } from '../reducers/users.reducer';
 import { RouterSelectors } from './router.selectors';
-import { isNil } from 'ramda';
+import { isNil, Dictionary } from 'ramda';
 import { UserModels } from '../models/user.model';
 
 export namespace UserSelectors {
@@ -22,14 +22,23 @@ export namespace UserSelectors {
   export const getUsersForTeamSelector = createSelector(
     ApplicationSelectors.getCurrentTeamIdSelector,
     commonSelectors.selectAll,
-    (teamId, users) => users.filter(user => user.teamId === teamId)
+    (teamId, users) =>
+      users
+        .filter(user => user.teamId === teamId)
+        .reduce(
+          (prev, curr) => ({ ...prev, [curr.id]: curr }),
+          {}
+        ) as Dictionary<UserModels.User>
   );
 
   export const getUsersForTeamSortedByCurrentUser = createSelector(
     getUsersForTeamSelector,
     getCurrentUser,
     (users, currentUser) => {
-      return [currentUser, ...users.filter(u => u.id !== currentUser.id)];
+      return [
+        currentUser,
+        ...Object.values(users).filter(u => u.id !== currentUser.id),
+      ];
     }
   );
 

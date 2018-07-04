@@ -7,6 +7,7 @@ import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { Dictionary } from '../../redux/models/dictionary.model';
 import { UserStatsSelectors } from '../../redux/selectors/user-stats.selectors';
 import { UserModels } from '../../redux/models/user.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-team',
@@ -22,7 +23,9 @@ export class TeamComponent implements OnInit {
   ngOnInit() {
     this.team$ = this.store.select(TeamSelectors.getCurrentTeamSelector);
     this.user$ = this.store.select(UserSelectors.getCurrentUser);
-    this.allUsers$ = this.store.select(UserSelectors.getUsersForTeamSelector);
+    this.allUsers$ = this.store
+      .select(UserSelectors.getUsersForTeamSelector)
+      .pipe(map(Object.values));
     this.userStats$ = this.store.select(
       UserStatsSelectors.getUserStatsSelector
     );

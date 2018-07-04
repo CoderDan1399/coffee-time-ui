@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { createSelector, Store, MemoizedSelector } from '@ngrx/store';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, ReplaySubject } from 'rxjs';
 import { UserModels } from '../../redux/models/user.model';
 import { UserSelectors } from '../../redux/selectors/user.selectors';
 import { UsersSelectedActions } from '../../redux/actions/users-selected.actions';
@@ -8,14 +8,14 @@ import { Dictionary } from '@ngrx/entity/src/models';
 import { Id } from '../../redux/models/id.model';
 import { UsersSelectedSelectors } from '../../redux/selectors/users-selected.selectors';
 import { filter, first, takeUntil, tap } from 'rxjs/operators';
-import { TransactionActions } from '../../redux/actions/transaction.actions';
 import { TeamSelectors } from '../../redux/selectors/team.selectors';
 
 import { newId } from '../../common/new-id';
-import { isNil } from 'ramda';
 import { anyNil } from '../../common/common';
 import { ActionDispatchers } from '../../redux/dispatchers/action.dispatchers';
 import { TransactionModels } from '../../redux/models/transaction.model';
+import { UserStatsSelectors } from '../../redux/selectors/user-stats.selectors';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-coffee',
@@ -23,17 +23,35 @@ import { TransactionModels } from '../../redux/models/transaction.model';
   styleUrls: ['./add-coffee.component.scss'],
 })
 export class AddCoffeeComponent implements OnInit, OnDestroy {
+  public userStats$: Observable<Dictionary<UserModels.UserStats>>;
   public users$: Observable<UserModels.User[]>;
-  public buyerUserId: string;
-  public selectedUsers$: Observable<Dictionary<Id>> = of({});
+  public buyerUserId$: Observable<string>;
+  public buyer$: Observable<UserModels.User>;
+  public selectedUsers$: Observable<UserModels.User[]>;
+  public selectedUserIds$: Observable<Dictionary<Id>> = of({});
+  public confirm = false;
   private destroy$ = new Subject();
-  constructor(private store: Store<any>) {}
+  constructor(
+    private store: Store<any>,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    this.buyer$ = this.store.select(buyerSelector);
+    this.selectedUsers$ = getSelectedUsers(this.store);
+    this.userStats$ = this.store.select(
+      UserStatsSelectors.getUserStatsSelector
+    );
+    getSelectedUsers(this.store).subscribe(vals => console.log(vals));
+
     this.users$ = this.store.select(
       UserSelectors.getUsersForTeamSortedByCurrentUser
     );
 
+    this.buyerUserId$ = this.store.select(
+      UsersSelectedSelectors.getBuyerUserIdSelector
+    );
     this.users$
       .pipe(
         takeUntil(this.destroy$),
@@ -41,14 +59,15 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe(users => {
-        this.buyerUserId = users[0].id;
+        this.setBuyer(users[0].id);
       });
 
-    this.selectedUsers$ = this.store
-      .select(
-        UsersSelectedSelectors.getUsersSelectedCommonSelectors.selectEntities
-      )
-      .pipe(tap(val => console.log(val)));
+    this.selectedUserIds$ = this.store.select(
+      UsersSelectedSelectors.commonSelectors.selectEntities
+    );
+  }
+  trackByUser(index, item) {
+    return item.id;
   }
   ngOnDestroy(): void {
     this.destroy$.next(null);
@@ -57,9 +76,19 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UsersSelectedActions.SelectUser(user.id));
   }
 
+  setBuyer(userId: string) {
+    this.store.dispatch(new UsersSelectedActions.SelectBuyer(userId));
+  }
+  public gotoConfirmTransaction() {
+    this.confirm = true;
+  }
+
+  public gotoTransaction() {
+    this.confirm = false;
+  }
   public saveHandler() {
     const selector = createSelector(
-      getTransactionSelectorFactory(newId(), this.buyerUserId),
+      getTransactionSelectorFactory(newId()),
       UserSelectors.getUserCredentialsSelector,
       (transaction, credentials) => {
         return transaction && credentials
@@ -82,36 +111,45 @@ export class AddCoffeeComponent implements OnInit, OnDestroy {
           transaction: TransactionModels.Transaction;
           credentials: UserModels.UserCredentials;
         }) => {
-          console.log(transaction);
-          console.log(credentials);
-          const actions = ActionDispatchers.createSaveTransactionActions(
+          ActionDispatchers.dispatchSaveTransaction(
+            this.store,
             transaction,
             credentials.userId,
             credentials.userSecret
           );
-
-          console.log(actions);
-          actions.forEach(action => this.store.dispatch(action));
+          ActionDispatchers.waitForSave(this.store, transaction.id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(status => {
+              if (status.hasSaved) {
+                this.store.dispatch(new UsersSelectedActions.Clear());
+                this.router.navigate(['../'], {
+                  relativeTo: this.route,
+                  preserveQueryParams: true,
+                });
+              }
+            });
         }
       );
   }
-  public buyerSelectedHandler(user) {}
+  public buyerSelectedHandler(userId: string) {
+    this.setBuyer(userId);
+  }
 }
 
 export function getTransactionSelectorFactory(
-  transactionId: string,
-  purchaserUserId: string
+  transactionId: string
 ): MemoizedSelector<any, TransactionModels.Transaction> {
   return createSelector(
-    UsersSelectedSelectors.getUsersSelectedCommonSelectors.selectEntities,
+    UsersSelectedSelectors.commonSelectors.selectEntities,
+    UsersSelectedSelectors.getBuyerUserIdSelector,
     TeamSelectors.getCurrentTeamSelector,
     UserSelectors.getCurrentUser,
     UserSelectors.getUsersForTeamSelector,
-    (selectedUsers, currentTeam, currentUser, users) => {
-      if (anyNil(selectedUsers, currentTeam, currentUser, users)) {
+    (selectedUsers, buyerUserId, currentTeam, currentUser, users) => {
+      if (anyNil(selectedUsers, buyerUserId, currentTeam, currentUser, users)) {
         return undefined;
       }
-      const purchaser = users.find(user => user.id === purchaserUserId);
+      const purchaser = users[buyerUserId];
 
       const transactionHeader: TransactionModels.Transaction = {
         teamId: currentTeam.id,
@@ -125,19 +163,43 @@ export function getTransactionSelectorFactory(
       };
 
       const transactionItems = <TransactionModels.TransactionItem[]>(
-        users.filter(user => selectedUsers[user.id]).map(
-          user =>
-            <TransactionModels.TransactionItem>{
-              userId: user.id,
-              qty: 1,
-              id: newId(),
-              transactionId,
-              username: user.name,
-            }
-        )
+        Object.values(users)
+          .filter(user => selectedUsers[user.id])
+          .map(
+            user =>
+              <TransactionModels.TransactionItem>{
+                userId: user.id,
+                qty: 1,
+                id: newId(),
+                transactionId,
+                username: user.name,
+              }
+          )
       );
       transactionHeader.items = transactionItems;
       return transactionHeader;
     }
   );
+}
+
+export const buyerSelector = createSelector(
+  UsersSelectedSelectors.getBuyerUserIdSelector,
+  UserSelectors.getUsersForTeamSelector,
+  (buyerId, users) => {
+    return users[buyerId];
+  }
+);
+
+export function getSelectedUsers(
+  store: Store<any>
+): Observable<UserModels.User[]> {
+  const selector = createSelector(
+    UsersSelectedSelectors.commonSelectors.selectEntities,
+    UserSelectors.getUsersForTeamSelector,
+    (selectedUserIds, users) => {
+      return Object.values(users).filter(user => selectedUserIds[user.id]);
+    }
+  );
+
+  return store.select(selector);
 }

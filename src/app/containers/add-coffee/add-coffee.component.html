@@ -1,28 +1,36 @@
-<p>
-</p>
-<h2>Whose buying</h2>
-<div>
-  <select #t (ngModelChange)="buyerSelectedHandler(t.value)" [(ngModel)]="buyerUserId">
-    <option *ngFor="let user of (users$ | async)"
-            [value]="user.id">{{user.name}}
-    </option>
-  </select>
-</div>
-
-<div>
-  <h3>Whose getting coffee</h3>
+<div *ngIf="confirm == false else summary">
   <div>
-    <ng-container *ngIf="(selectedUsers$ | async) as selectedUsers">
+    <h2>Whose buying</h2>
+    <div>
+      <select #t (ngModelChange)="buyerSelectedHandler(t.value)" [ngModel]="buyerUserId$ | async">
+        <option *ngFor="let user of (users$ | async) trackBy: trackByUser " [value]="user.id">{{user.name}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <h3>Whose getting coffee</h3>
+      <div>
+        <ng-container *ngIf="(selectedUserIds$ | async) as selectedUserIds">
 
 
-      <app-select-user [users]="users$| async"
-                       (userSelected)="userClickHandler($event)"
-                       [selectedUsers]="selectedUsers$| async"></app-select-user>
-    </ng-container>
+          <app-select-user [users]="users$| async" (userSelected)="userClickHandler($event)" [selectedUsers]="selectedUserIds"></app-select-user>
+        </ng-container>
+      </div>
+    </div>
   </div>
   <hr>
   <div>
-    <button (click)="saveHandler()">Save</button>
-
+    <button (click)="gotoConfirmTransaction()">Next</button>
   </div>
 </div>
+
+<ng-template #summary>
+  <app-transaction-summary [buyer]="buyer$ | async" [receivers]="selectedUsers$ | async" [userStats]="userStats$ | async">
+  </app-transaction-summary>
+
+  <button (click)=" saveHandler() ">Save </button>
+  <button (click)="gotoTransaction() ">Back </button>
+</ng-template>
+
+<ng-container></ng-container>

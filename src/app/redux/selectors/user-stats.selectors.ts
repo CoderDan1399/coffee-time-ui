@@ -17,7 +17,7 @@ export namespace UserStatsSelectors {
     getCommonSelectors.selectEntities,
     (team, users, userStats) => {
       const result: Dictionary<UserModels.UserStats> = {};
-      users.forEach(user => {
+      Object.values(users).forEach(user => {
         if (userStats[user.id]) {
           result[user.id] = userStats[user.id];
         } else {

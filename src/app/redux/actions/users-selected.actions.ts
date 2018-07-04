@@ -12,6 +12,17 @@ export namespace UsersSelectedActions {
     UpsertMany = '[users selected] upsert many',
 
     SelectUser = '[users selected] select user',
+    SelectBuyer = '[users selected] select buyer',
+    Clear = '[users selected] clear',
+  }
+
+  export class Clear implements ActionWithPayload {
+    readonly type: string = ActionTypes.Clear;
+    constructor() {}
+  }
+  export class SelectBuyer implements ActionWithPayload {
+    readonly type: string = ActionTypes.SelectBuyer;
+    constructor(public payload: string) {}
   }
 
   export class SelectUser implements ActionWithPayload {
@@ -53,5 +64,11 @@ export namespace UsersSelectedActions {
     constructor(public payload: string) {}
   }
 
-  export type ActionsUnion = AddOne | AddAll | AddMany | UpsertMany | UpsertOne;
+  export type ActionsUnion =
+    | AddOne
+    | AddAll
+    | AddMany
+    | UpsertMany
+    | UpsertOne
+    | Clear;
 }

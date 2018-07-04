@@ -9,11 +9,13 @@ import { UserActions } from '../actions/user.actions';
 import { UsersSelectedActions } from '../actions/users-selected.actions';
 
 export namespace UsersSelectedReducer {
-  export interface State extends EntityState<EntityType> {}
+  export interface State extends EntityState<EntityType> {
+    buyerUserId: string;
+  }
 
   export const adapter = createEntityAdapter<EntityType>();
 
-  const initialState = adapter.getInitialState();
+  const initialState = adapter.getInitialState({ buyerUserId: null });
 
   const actionTypes = UsersSelectedActions.ActionTypes;
 
@@ -29,12 +31,18 @@ export namespace UsersSelectedReducer {
   ) => {
     // placeholder for custom reducer methods.
     switch (action.type) {
+      case UsersSelectedActions.ActionTypes.SelectBuyer: {
+        return { ...state, buyerUserId: action.payload };
+      }
       case UsersSelectedActions.ActionTypes.SelectUser: {
         if (state.entities[action.payload]) {
           return adapter.removeOne(action.payload, state);
         } else {
           return adapter.addOne({ id: action.payload }, state);
         }
+      }
+      case UsersSelectedActions.ActionTypes.Clear: {
+        return initialState;
       }
     }
     return state;

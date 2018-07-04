@@ -38,6 +38,7 @@ import { TransactionService } from './services/transaction.service';
 import { TransactionEffects } from './redux/effects/transaction.effects';
 import { CommonAppModule } from './common-app.module';
 import { RouterModule } from '@angular/router';
+import { TransactionSummaryComponent } from './components/transaction-summary/transaction-summary.component';
 
 export const APP_DECLARATIONS = [
   AppComponent,
@@ -53,6 +54,7 @@ export const APP_DECLARATIONS = [
   UserTileComponent,
   SelectUserComponent,
   UserStatsComponent,
+  TransactionSummaryComponent
 ];
 
 export const APP_IMPORTS = [
